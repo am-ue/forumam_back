@@ -14,3 +14,7 @@ var elixir = require('laravel-elixir');
 elixir(function(mix) {
     mix.sass('app.scss');
 });
+elixir(function(mix) {
+    mix.less('admin-lte/AdminLTE.less', 'public/template/css');
+    mix.less('bootstrap/bootstrap.less', 'public/template/css');
+});

@@ -1,2 +1,17 @@
-// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+.navbar-nav > .user-menu > .dropdown-menu > li.user-header {
+    height: inherit;
+}
 
+div.dataTables_wrapper div.dataTables_filter input {
+    border-radius: 3px;
+    min-width: 150px;
+    font-size: 13px;
+    height: 16px;
+}
+
+.headerElems {
+    float: right;
+    display: block;
+    margin-top: -28px;
+    position: relative;
+}
