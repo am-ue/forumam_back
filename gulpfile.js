@@ -5,11 +5,15 @@ var notify = require("gulp-notify");
 var gutil = require('gulp-util');
 
 elixir(function(mix) {
-    mix.sass('app.scss');
+    mix.sass('app.scss', 'public/css/custom.css');
+    mix.less('app.less', 'public/css/template.css');
 });
-elixir(function(mix) {
-    mix.less('admin-lte/AdminLTE.less', 'public/template/css');
-    mix.less('bootstrap/bootstrap.less', 'public/template/css');
+
+gulp.task('styles', function() {
+    elixir(function(mix) {
+        mix.sass('app.scss', 'public/css/custom.css');
+        mix.less('app.less', 'public/css/template.css');
+    });
 });
 
 // Test function
