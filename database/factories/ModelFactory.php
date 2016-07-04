@@ -20,6 +20,6 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'role'           => $faker->jobTitle,
         'password'       => bcrypt(str_random(10)),
         'remember_token' => str_random(10),
-        'company_id'     => 0,
+        'company_id'     => rand(2, 10),
     ];
 });

@@ -13,7 +13,7 @@ class CreateFirstAdmin extends Migration
      */
     public function up()
     {
-        factory(User::class, [
+        factory(User::class)->create([
             'first_name' => 'Admin',
             'last_name'  => 'ForumAM',
             'phone'      => '0',

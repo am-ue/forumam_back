@@ -17,6 +17,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $remember_token
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property-read mixed $full_name
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereFirstName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereLastName($value)
@@ -45,5 +46,10 @@ class User extends Authenticatable
         } else {
             $this->attributes['password'] = null;
         }
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
     }
 }

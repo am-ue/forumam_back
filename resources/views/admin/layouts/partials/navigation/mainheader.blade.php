@@ -23,43 +23,26 @@
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <!-- The user image in the navbar-->
-                            <img src="{{ asset('admin-assets/img/user2-160x160.jpg') }}" class="user-image" alt="User Image"/>
+                            <i class="fa fa-user"></i>
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs">{{ Auth::user()->name }}</span>
+                            <span class="hidden-xs">{{ Auth::user()->full_name }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-<<<<<<< Updated upstream
-                                <img src="{{ asset('admin-assets/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
-=======
-                                <img src="{{ asset(Auth::user()->company->logo) }}" class="img-circle" alt="User Image" />
->>>>>>> Stashed changes
+                                <i class="fa fa-user fa-5x" style="color: white"></i>
                                 <p>
-                                    {{ Auth::user()->name }}
-                                    <?php
-                                    $datec = Auth::user()['created_at'];
-                                    ?>
-                                    <small>Member since <?php echo date("M. Y", strtotime($datec)); ?></small>
+                                    {{ Auth::user()->full_name }}
+                                    <small>Forum AM</small>
                                 </p>
-                            </li>
-                            <!-- Menu Body -->
-                            <li class="user-body">
-                                <div class="col-xs-4 text-center">
-                                    <a href="{{ url(config('laraadmin.adminRoute') . '/laeditor') }}"><i class="fa fa-code"></i> <span>Edit</span></a>
-                                </div>
-                                <div class="col-xs-8 text-center">
-                                    <a href="{{ url(config('laraadmin.adminRoute') . '/modules') }}"><i class="fa fa-cubes"></i> <span>Module Manager</span></a>
-                                </div>
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="{{ url(config('laraadmin.adminRoute') . '/user/') }}/{{ Auth::user()->id }}" class="btn btn-default btn-flat">Profile</a>
+                                    <a href="#" class="btn btn-default btn-flat">Mon compte</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="{{ url('/logout') }}" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="{{ route('admin.logout') }}" class="btn btn-default btn-flat">Déconnexion</a>
                                 </div>
                             </li>
                         </ul>
