@@ -3,3 +3,5 @@
 /public/storage
 .env
 build_files/
+/config/ide-helper.php
+/config/debugbar.php

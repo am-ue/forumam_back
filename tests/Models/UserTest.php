@@ -49,4 +49,13 @@ class UserTest extends TestCase
         $this->assertEquals('foo bar', $user->full_name);
 
     }
+
+    public function testisAdmin()
+    {
+        $user = factory(User::class)->create(['company_id' => 1]);
+        $this->assertTrue($user->is_admin);
+
+        $user->company_id = 2;
+        $this->assertFalse($user->is_admin);
+    }
 }

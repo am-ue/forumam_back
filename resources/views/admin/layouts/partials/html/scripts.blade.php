@@ -9,6 +9,9 @@
 <script src="{{ asset('plugins/bootstrap-datetimepicker/moment.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js') }}" type="text/javascript"></script>
 
+<!-- SweetAlert -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
 <!-- AdminLTE App -->
 <script src="{{ asset('js/app.min.js') }}" type="text/javascript"></script>
 

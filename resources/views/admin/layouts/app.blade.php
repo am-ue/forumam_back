@@ -37,5 +37,7 @@
     @include('admin.layouts.partials.html.scripts')
 @show
 
+@include('admin.layouts.partials.alerts')
+
 </body>
 </html>
