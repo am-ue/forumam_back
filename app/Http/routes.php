@@ -1,16 +1,20 @@
 <?php
 
-Route::group(['prefix' => config('admin.path'), 'as' => 'admin.', 'namespace' => 'Admin'], function () {
+Route::group(['prefix' => config('admin.path'), 'namespace' => 'Admin'], function () {
 
     Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/', function () {
             return view('admin.dashboard');
-        })->name('home');
+        })->name('admin.home');
 
+        Route::group(['middleware' => 'canAccess'], function () {
+            Route::get('users/datatable', 'UserController@datatable')->name('admin.users.datatable');
+            Route::resource('users', 'UserController');
+        });
     });
 
-    Route::group(['namespace' => 'Auth'], function () {
+    Route::group(['namespace' => 'Auth', 'as' => 'admin.'], function () {
         // Authentication Routes...
         Route::get('login', 'AuthController@showLoginForm')->name('login');
         Route::post('login', 'AuthController@login')->name('postLogin');

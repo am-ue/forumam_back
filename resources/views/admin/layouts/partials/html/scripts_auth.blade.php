@@ -3,3 +3,4 @@
 
 <!-- iCheck -->
 <script src="{{ asset('plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
+
