@@ -23,3 +23,24 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'company_id'     => rand(2, 10),
     ];
 });
+
+$factory->define(App\Models\Company::class, function (Faker\Generator $faker) {
+    return [
+        'name'            => $faker->company,
+        'website'         => $faker->url,
+        'description'     => $faker->paragraph,
+        'figures'         => $faker->paragraph,
+        'staffing'        => $faker->paragraph,
+        'profiles'        => $faker->paragraph,
+        'more'            => $faker->paragraph,
+        'logo'            => $faker->image(),
+        'stand'           => $faker->word,
+        'billing_contact' => $faker->paragraph,
+        'billing_address' => $faker->paragraph,
+        'billing_delay'   => $faker->words(3, true),
+        'billing_method'  => $faker->words(3, true),
+        'category_id'     => rand(1, 4),
+        'active'          => rand(0, 1),
+        'public'          => rand(0, 1),
+    ];
+});

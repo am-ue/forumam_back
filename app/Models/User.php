@@ -11,20 +11,25 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property integer $id
  * @property string $first_name
  * @property string $last_name
+ * @property string $phone
  * @property string $email
  * @property string $password
  * @property integer $company_id
+ * @property string $role
  * @property string $remember_token
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read string $full_name
- * @property-read boolean $is_admin
+ * @property-read mixed $full_name
+ * @property-read mixed $is_admin
+ * @property-read \App\Models\Company $company
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereFirstName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereLastName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\User wherePhone($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereEmail($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User wherePassword($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereCompanyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereRole($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereUpdatedAt($value)
@@ -57,5 +62,10 @@ class User extends Authenticatable
     public function getIsAdminAttribute()
     {
         return $this->company_id == 1;
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 }

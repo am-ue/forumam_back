@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Company;
 use App\Models\User;
 use Auth;
 use Closure;
@@ -48,10 +49,9 @@ class CanAccess
             return false;
         }
 
-        /* TODO quand Company existera.
-         * if ($company instanceof Company) {
+        if ($company instanceof Company) {
             $company = $company->id;
-        }*/
+        }
         return $company == Auth::user()->company_id;
     }
 }

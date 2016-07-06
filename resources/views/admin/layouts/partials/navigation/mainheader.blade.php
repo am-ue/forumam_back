@@ -24,16 +24,14 @@
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-user"></i>
-                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs">{{ Auth::user()->full_name }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <i class="fa fa-user fa-5x" style="color: white"></i>
+                                <img src="{{ asset(Auth::user()->company->logo) }}" class="img-circle" alt="User Image" />
                                 <p>
                                     {{ Auth::user()->full_name }}
-                                    <small>Forum AM</small>
+                                    <small>{{ Auth::user()->company->name }}</small>
                                 </p>
                             </li>
                             <!-- Menu Footer-->

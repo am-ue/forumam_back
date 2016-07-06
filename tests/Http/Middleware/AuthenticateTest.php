@@ -7,16 +7,24 @@ use Tests\TestCase;
 
 class AuthenticateTest extends TestCase
 {
+
+    public function setUp()
+    {
+        parent::setUp();
+        \Route::get('/essai', ['middleware' => 'auth', function () {
+            return 'ok';
+        }]);
+    }
     public function testRedirectionVersLogin()
     {
-        $this->get(route('admin.home'));
+        $this->get('/essai');
         $this->assertResponseStatus(302);
         $this->assertRedirectedToRoute('admin.login');
     }
 
     public function testJsonUnauthorize()
     {
-        $this->json('GET', route('admin.home'));
+        $this->json('GET', '/essai');
         $this->assertResponseStatus(401);
         $this->see('Unauthorized');
     }
@@ -25,7 +33,8 @@ class AuthenticateTest extends TestCase
     {
         $user = factory(User::class)->create();
         $this->be($user);
-        $this->get(route('admin.home'));
+        $this->get('/essai');
         $this->assertResponseOk();
+        $this->assertEquals('ok', $this->response->content());
     }
 }
