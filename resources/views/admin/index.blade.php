@@ -4,13 +4,11 @@
 @section('contentheader.title', ucfirst($config['vars']))
 @section('contentheader.description', $config['description'])
 
-@section('contentheader.elements')
-    <button class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Ajouter {{ $config['preps'][1] }} {{ $config['var'] }}</button>
-@endsection
+@section('contentheader.elements', $config['elements'])
 
 @section("main-content")
 
-    <div class="box box-success">
+    <div class="box">
         <!--<div class="box-header"></div>-->
         <div class="box-body">
             <table id="index" class="table table-bordered table-striped table-hover">

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Company;
 use App\Models\User;
+use Carbon\Carbon;
 use Form;
 use Illuminate\Http\Request;
 
@@ -20,12 +22,18 @@ class UserController extends Controller
      */
     public function index()
     {
+        $elements = '
+            <button class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#AddModal">
+                    Ajouter un utilisateur
+            </button>
+        ';
+
         $config = [
-            'var'        => 'utilisateur',
+            'var'         => 'utilisateur',
             'vars'        => 'utilisateurs',
-            'preps' => ['de l\'', 'un'],
-            'description'  => 'liste',
-            'ajax_url' => route('admin.users.datatable')
+            'description' => 'liste',
+            'ajax_url'    => action('Admin\UserController@datatable'),
+            'elements'    => '' /*$elements TODO pas encore de formulaire*/,
         ];
         $columns = [
             'Nom'        => 'full_name',
@@ -64,21 +72,56 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+
+        $config = [
+            'var'         => 'utilisateur',
+            'vars'        => 'utilisateurs',
+            'description' => $user->full_name,
+        ];
+        Carbon::setLocale('fr');
+        $columns = [
+            'Prénom'        => $user->first_name,
+            'Nom'           => $user->last_name,
+            'Email'         => $user->email,
+            'Télephone'     => $user->phone,
+            'Entreprise'    => $user->company->name,
+            'Fonction'      => $user->role,
+            'Créé le'       => $user->created_at->toFormattedDateString(),
+            'Mis à jour le' => $user->updated_at->toFormattedDateString(),
+        ];
+        return view('admin.show', compact('config', 'columns'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+
+    public function edit(User $user)
     {
-        //
+        $config = [
+            'var'         => 'utilisateur',
+            'vars'        => 'utilisateurs',
+            'description' => $user->full_name,
+            'update_url' => action('Admin\UserController@update', $user->id),
+            'cancel_url' => action('Admin\UserController@index'),
+        ];
+        Form::setModel($user);
+        $fields = [
+            'Prénom'        => [$field = 'first_name', Form::text($field, null, ['class' => 'form-control'])],
+            'Nom'           => [$field = 'last_name', Form::text($field, null, ['class' => 'form-control'])],
+            'Email'         => [$field = 'email', Form::email($field, null, ['class' => 'form-control'])],
+            'Télephone'     => [$field = 'phone', Form::text($field, null, ['class' => 'form-control'])],
+            'Entreprise'    => [$field = 'company_id',
+                Form::select(
+                    $field,
+                    Company::pluck('name', 'id'),
+                    null,
+                    ['class' => 'form-control','rel' => 'select2']
+                )
+            ],
+            'Fonction'      => [$field = 'role', Form::text($field, null, ['class' => 'form-control'])],
+        ];
+        $object = $user;
+        return view('admin.edit', compact('config', 'fields', 'object'));
     }
 
     /**
@@ -101,9 +144,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return 1;
     }
 
     public function datatable()
@@ -111,23 +155,13 @@ class UserController extends Controller
         $users = User::with('company')->get();
         $out = Datatables::of($users)
             ->addColumn('actions', function (User $user) {
-                $show_url = route('admin.users.show', $user->id);
-                $edit_url = route('admin.users.edit', $user->id);
-                $delete_form_open = Form::open([
-                    'route'  => ['admin.users.destroy', $user->id],
-                    'method' => 'delete',
-                    'style'  => 'display:inline',
-                ]);
-                $delete_form_close = Form::close();
-                return "
-                    <div class='btn-group-xs'>
-                        <a href='$show_url' class='btn btn-info'><i class='fa fa-eye'></i></a>
-                        <a href='$edit_url' class='btn btn-warning'><i class='fa fa-edit'></i></a>
-                        $delete_form_open
-                            <button type='submit' class='btn btn-danger btn-xs'><i class='fa fa-times'></i></button>
-                        $delete_form_close
-                    </div>
-                ";
+                $data['show_url'] = action('Admin\UserController@show', $user->id);
+                $data['edit_url'] = action('Admin\UserController@edit', $user->id);
+                $data['destroy_url'] = action('Admin\UserController@destroy', $user->id);
+                $data['element_title'] = $user->full_name;
+                $data['element_id'] = $user->id;
+
+                return view('admin.index_actions', $data);
             })
             ->make(true);
         return $out;

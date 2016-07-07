@@ -21,7 +21,7 @@
         <ul class="sidebar-menu">
             <li class="header">Administration</li>
             <li class="{{isActiveRoutes('admin.home')}}"><a href="{{ route('admin.home') }}"><i class='fa fa-home'></i> <span>Dashboard</span></a></li>
-            <li class="{{isActiveRoutes(['admin.users.index', 'admin.users.show]'])}}"><a href="{{ route('admin.users.index') }}"><i class='fa fa-users'></i> <span>Les utilisateurs</span></a></li>
+            <li class="{{isActiveRoutes(['admin.users.index', 'admin.users.show', 'admin.users.edit'])}}"><a href="{{ route('admin.users.index') }}"><i class='fa fa-users'></i> <span>Les utilisateurs</span></a></li>
             <li class="{{isActiveRoutes('')}}"><a href="#"><i class='fa fa-building'></i> <span>Les entreprises</span></a></li>
             <li class="{{isActiveRoutes('')}}"><a href="#"><i class='fa fa-shopping-cart'></i> <span>Les options</span></a></li>
             <li class="{{isActiveRoutes('')}}"><a href="#"><i class='fa fa-shopping-cart'></i> <span>Les articles</span></a></li>

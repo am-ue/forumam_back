@@ -1,4 +1,5 @@
 <?php
+Route::singularResourceParameters();
 
 Route::group(['prefix' => config('admin.path'), 'namespace' => 'Admin'], function () {
 
