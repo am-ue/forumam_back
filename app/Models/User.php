@@ -57,6 +57,16 @@ class User extends Authenticatable
         }
     }
 
+    public function setFirstNameAttribute($value)
+    {
+        $this->attributes['first_name'] =ucfirst(strtolower($value));
+    }
+
+    public function setLastNameAttribute($value)
+    {
+        $this->attributes['last_name'] =strtoupper(strtolower($value));
+    }
+
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;

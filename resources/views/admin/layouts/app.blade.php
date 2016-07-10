@@ -30,6 +30,15 @@
 
     @include('admin.layouts.partials.navigation.footer')
 
+    <!-- Modal called with ajax -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div><!-- /.Modal called with ajax -->
+
+
 </div><!-- ./wrapper -->
 
 

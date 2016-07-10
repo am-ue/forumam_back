@@ -12,11 +12,11 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				{!! Form::model($object, ['url' => $config['update_url'], 'method'=>'PUT']) !!}
-                @foreach($fields as $label => $field)
-                        <div class="form-group">
-                            {!! Form::label($field[0], $label) !!}
-                            {!! $field[1] !!}
-                            {{ $errors->first($field[0], '<p class="help-block">:message</p>') }}
+                    @foreach($fields as list($name, $input))
+                        <div class="form-group  {{$errors->has($name) ? 'has-error' : '' }}">
+                            {!! Form::label($name, trans('validation.attributes.'.$name)) !!}
+                            {!! $input !!}
+                            {!! $errors->first($name, '<p class="help-block">:message</p>') !!}
                         </div>
                     @endforeach
 					<br>

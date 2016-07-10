@@ -46,7 +46,7 @@ class UserTest extends TestCase
             'last_name'  => 'bar',
         ]);
 
-        $this->assertEquals('foo bar', $user->full_name);
+        $this->assertEquals('Foo BAR', $user->full_name);
 
     }
 
