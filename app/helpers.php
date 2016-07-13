@@ -9,15 +9,22 @@
 function isActiveRoutes($routes, $output = "active")
 {
     if (!is_array($routes)) {
-        if (Route::currentRouteName() == $routes) {
-            return $output;
-        }
+        isActiveRoute($routes, $output);
     } else {
         foreach ($routes as $route) {
-            if (Route::currentRouteName() == $route) {
-                return $output;
-            }
+            isActiveRoute($route, $output);
         }
     }
     return '';
+}
+
+/**
+ * @param string $route
+ * @param string $output
+ *
+ * @return string $output
+ */
+function isActiveRoute($route, $output = "active")
+{
+    return starts_with(Route::currentRouteName(), $route) ? $output : '';
 }

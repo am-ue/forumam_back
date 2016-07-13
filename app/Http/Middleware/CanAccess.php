@@ -32,19 +32,20 @@ class CanAccess
 
     protected function isRequestedEqualsCurrentUser()
     {
-        $user = Route::getCurrentRoute()->parameter('users');
+        $user = Route::getCurrentRoute()->parameter('user');
         if (!$user) {
             return false;
         }
         if ($user instanceof User) {
             $user = $user->id;
         }
+
         return $user == Auth::user()->id;
     }
 
     protected function isRequestedEqualsCurrentCompany()
     {
-        $company = Route::getCurrentRoute()->parameter('companies');
+        $company = Route::getCurrentRoute()->parameter('company');
         if (!$company) {
             return false;
         }

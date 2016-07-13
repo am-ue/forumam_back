@@ -52,29 +52,44 @@
                 {data: 'actions', name: 'actions'}
             ],
             language: {
-                'sProcessing': "Traitement en cours...",
-                "sInfo": "",
-                "sInfoEmpty": "Aucun {{ $config['var'] }} trouvé",
-                "sInfoFiltered": "(filtr&eacute; de _MAX_ {{ $config['vars'] }} au total)",
-                "sInfoPostFix": "",
-                "sLoadingRecords": "Chargement en cours...",
-                "sZeroRecords": "Aucun {{ $config['var'] }} trouvé",
-                "sEmptyTable": "Aucun {{ $config['var'] }} trouvé",
-                "oPaginate": {
-                    "sFirst": "Premier",
-                    "sPrevious": "Pr&eacute;c&eacute;dent",
-                    "sNext": "Suivant",
-                    "sLast": "Dernier"
+                processing: "Traitement en cours...",
+                info: "Affichage des {{ $config['vars'] }} _START_ &agrave; _END_ sur _TOTAL_ {{ $config['vars'] }}",
+                infoEmpty: "Aucun(e) {{ $config['var'] }} trouvé(e)",
+                infoFiltered: "(filtr&eacute; de _MAX_ {{ $config['vars'] }} au total)",
+                infoPostFix: "",
+                loadingRecords: "Chargement en cours...",
+                zeroRecords: "Aucun(e) {{ $config['var'] }} trouvé(e)",
+                emptyTable: "Aucun(e) {{ $config['var'] }} trouvé(e)",
+                paginate: {
+                    first: "<<",
+                    previous: "<",
+                    next: ">",
+                    last: ">>"
                 },
-                "oAria": {
-                    "sSortAscending": ": activer pour trier la colonne par ordre croissant",
-                    "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                aria: {
+                    sSortAscending: ": activer pour trier la colonne par ordre croissant",
+                    sSortDescending: ": activer pour trier la colonne par ordre d&eacute;croissant"
                 },
                 lengthMenu: "_MENU_",
                 search: "_INPUT_",
                 searchPlaceholder: "Recherche"
             },
-            columnDefs: [{orderable: false, targets: [-1]}]
+            columnDefs: [{orderable: false, targets: [-1]}],
+            fnDrawCallback: function(oSettings) {
+                if (oSettings._iDisplayLength > oSettings.fnRecordsDisplay()) {
+                    $(oSettings.nTableWrapper).find('.dataTables_paginate').hide();
+                    var $indexInfo = $('#index_info');
+                    $indexInfo.text('Affichage des ' + oSettings.fnRecordsDisplay() + ' {!! $config['vars'] !!}');
+                    if (oSettings.fnRecordsDisplay() == 1) {
+                        $indexInfo.hide();
+                    }
+                } else {
+                    $(oSettings.nTableWrapper).find('.dataTables_paginate').show();
+                    $('ul.pagination li.paginate_button.disabled').remove();
+                }
+
+            }
+
         });
     });
 </script>

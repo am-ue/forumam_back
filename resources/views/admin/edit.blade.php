@@ -3,6 +3,7 @@
 @section('html.head.title', ucfirst($config['vars']))
 @section('contentheader.title', ucfirst($config['vars']))
 @section('contentheader.description', $config['description'])
+@section('contentheader.elements', $config['elements'])
 
 @section("main-content")
 <div class="box">
@@ -11,11 +12,11 @@
 	<div class="box-body">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
-				{!! Form::model($object, ['url' => $config['update_url'], 'method'=>'PUT']) !!}
+				{!! Form::model($object, ['url' => $config['update_url'], 'method'=>'PUT', 'files' => true]) !!}
                     @foreach($fields as list($name, $input))
                         <div class="form-group  {{$errors->has($name) ? 'has-error' : '' }}">
                             {!! Form::label($name, trans('validation.attributes.'.$name)) !!}
-                            {!! $input !!}
+                            <div style="margin-left: 20px">{!! $input !!}</div>
                             {!! $errors->first($name, '<p class="help-block">:message</p>') !!}
                         </div>
                     @endforeach
@@ -33,14 +34,5 @@
 @endsection
 
 @push('scripts')
-    <script>
-        $(function () {
-            $("[rel=select2]").select2({
-            });
-            $("[rel=taginput]").select2({
-                tags: true,
-                tokenSeparators: [',']
-            });
-        });
-    </script>
+    <script src={{ asset('js/forms.js') }}></script>
 @endpush

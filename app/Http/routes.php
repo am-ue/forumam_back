@@ -3,15 +3,23 @@ Route::singularResourceParameters();
 
 Route::group(['prefix' => config('admin.path'), 'namespace' => 'Admin'], function () {
 
-    Route::group(['middleware' => 'auth'], function () {
 
+    Route::group(['middleware' => 'auth'], function () {
         Route::get('/', function () {
             return view('admin.dashboard');
         })->name('admin.home');
 
         Route::group(['middleware' => 'canAccess'], function () {
-            Route::get('users/datatable', 'UserController@datatable')->name('admin.users.datatable');
+
+            Route::get('users/datatable', 'UserController@datatable');
             Route::resource('users', 'UserController');
+
+            Route::get('companies/datatable', 'CompanyController@datatable');
+            Route::resource('companies', 'CompanyController');
+
+            Route::get('categories/datatable', 'CategoryController@datatable');
+            Route::resource('categories', 'CategoryController');
+
         });
     });
 

@@ -25,6 +25,13 @@ class Authenticate
             }
         }
 
+        if (!Auth::guard($guard)->user()->company->active) {
+            Auth::guard($guard)->logout();
+            $message = 'Vous n\'êtes pas autorisé à vous connecter.<br/> Merci de contacter un responsable du forum.';
+            alert()->error($message, 'Désolé')->html()->persistent('Continuer');
+            return redirect()->guest(route('admin.login'));
+        }
+
         return $next($request);
     }
 }

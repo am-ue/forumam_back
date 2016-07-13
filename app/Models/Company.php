@@ -47,11 +47,31 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Category $category
  */
 class Company extends Model
 {
+    const UPLOAD_PATH = 'img/uploads/companies/';
+
+    public $guarded = ['stand', 'active', 'public', 'logo'];
+
+
+    public $appends = ['contact'];
+
+    public static $billing_methods = ['Chèque', 'Virement', 'CB'];
+
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function getContactAttribute()
+    {
+        return $this->users()->first();
     }
 }

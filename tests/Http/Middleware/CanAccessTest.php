@@ -2,6 +2,7 @@
 
 namespace Tests\Http\Middleware;
 
+use App\Models\Company;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -51,7 +52,7 @@ class CanAccessTest extends TestCase
         $user = factory(User::class)->create();
         $this->be($user);
 
-        \Route::get('/essai/{users}', ['middleware' => 'canAccess', function (User $users) {
+        \Route::get('/essai/{user}', ['middleware' => 'canAccess', function (User $user) {
             return 'ok';
         }]);
         $this->get('/essai/' . ($user->id));
@@ -60,7 +61,7 @@ class CanAccessTest extends TestCase
 
     public function testAccesAUneEntrepriseNonAutorisee()
     {
-        \Route::get('/essai/{companies}', ['middleware' => 'canAccess', function () {
+        \Route::get('/essai/{company}', ['middleware' => 'canAccess', function () {
             return 'ok';
         }]);
         $user = factory(User::class)->create();
@@ -71,7 +72,7 @@ class CanAccessTest extends TestCase
 
     public function testAccesAUneEntrepriseAutorisee()
     {
-        \Route::get('/essai/{companies}', ['middleware' => 'canAccess', function () {
+        \Route::get('/essai/{company}', ['middleware' => 'canAccess', function () {
             return 'ok';
         }]);
         $user = factory(User::class)->create();

@@ -142,6 +142,27 @@ return [
         'size'                  => 'Taille',
         'company_id'            => 'Entreprise',
         'role'                  => 'Fonction',
+
+        'website'         => 'Site internet',
+        'figures'         => 'Chiffres clefs (implantation, effectifs, etc.)',
+        'staffing'        => 'Mode de recrutement',
+        'profiles'        => 'Postes et responsabilités',
+        'more'            => 'Informations complémentaires',
+        'logo'            => 'Logo',
+        'stand'           => 'Emplacement',
+        'billing_contact' => 'Contact de facturation',
+        'billing_address' => 'Adresse de facturation',
+        'billing_delay'   => 'Délai de réglement',
+        'billing_method'  => 'Mode de réglement',
+        'category_id'     => 'Catégorie',
+        'active'          => 'Authentification possible',
+        'public'          => 'Visible publiquement',
+        'created_at'      => 'Créé le',
+        'updated_at'      => 'Dernière mise à jour le',
+        'contact'         => 'Contact',
+
+        'color' => 'Couleur',
+        'map'   => 'Plan',
     ],
 
 ];

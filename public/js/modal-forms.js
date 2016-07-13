@@ -80,6 +80,11 @@ $('document').ready(function() {
                     formGroup.addClass('has-error').append('<p class="help-block">'+message+'</p>');
                 });
 
+
+            } else if (response.status == 413){
+                var formGroup = $('[type=file]', form).closest('.form-group');
+                formGroup.addClass('has-error').append('<p class="help-block">Le fichier semble trop gros, merci de réessayer avec un fichier plus léger.</p>');
+
                 // Reset submit.
                 if (submit.is('button')) {
                     submit.html(submitOriginal);
@@ -88,8 +93,17 @@ $('document').ready(function() {
                 }
 
                 // If successful, reload.
-            } else {
+            } else if (response.status == 200) {
                 location.reload();
+            } else {
+                swal("Oups !", "Un problème est survenu...", "error");
+
+                // Reset submit.
+                if (submit.is('button')) {
+                    submit.html(submitOriginal);
+                } else if (submit.is('input')) {
+                    submit.val(submitOriginal);
+                }
             }
         });
     });

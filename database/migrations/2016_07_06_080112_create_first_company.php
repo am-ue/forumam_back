@@ -27,9 +27,9 @@ class CreateFirstCompany extends Migration
                 'billing_address' => '',
                 'billing_delay'   => '',
                 'billing_method'  => '',
-                'category_id'     => 0,
-                'active'          => 1,
-                'public'          => 0,
+                'category_id'     => 1,
+                'active'          => true,
+                'public'          => false,
             ]
         );
     }
@@ -41,6 +41,6 @@ class CreateFirstCompany extends Migration
      */
     public function down()
     {
-        //
+        \App\Models\Company::first()->delete();
     }
 }

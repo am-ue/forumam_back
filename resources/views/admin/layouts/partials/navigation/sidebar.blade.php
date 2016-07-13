@@ -21,12 +21,12 @@
         <ul class="sidebar-menu">
             <li class="header">Administration</li>
             <li class="{{isActiveRoutes('admin.home')}}"><a href="{{ route('admin.home') }}"><i class='fa fa-home'></i> <span>Dashboard</span></a></li>
-            <li class="{{isActiveRoutes(['admin.users.index', 'admin.users.show', 'admin.users.edit'])}}"><a href="{{ route('admin.users.index') }}"><i class='fa fa-users'></i> <span>Les utilisateurs</span></a></li>
-            <li class="{{isActiveRoutes('')}}"><a href="#"><i class='fa fa-building'></i> <span>Les entreprises</span></a></li>
-            <li class="{{isActiveRoutes('')}}"><a href="#"><i class='fa fa-shopping-cart'></i> <span>Les options</span></a></li>
-            <li class="{{isActiveRoutes('')}}"><a href="#"><i class='fa fa-shopping-cart'></i> <span>Les articles</span></a></li>
+            @foreach(['users' => ['Les utilisateurs', 'users'], 'companies' => ['Les entreprises', 'building'], 'categories' => ['Les catégories', 'map-marker']] as $model => list($label, $fa))
+                <li class="{{isActiveRoutes('admin.'.$model)}}"><a href="{{ route('admin.'.$model.'.index') }}"><i class='fa fa-{{$fa}}'></i> <span>{{$label}}</span></a></li>
+            @endforeach
             <li class="header">Ma participation</li>
-            <li><a href="#"><i class='fa fa-list-alt'></i> <span>Ma page publique</span></a></li>
+            <li class="{{isActiveRoutes('admin.users')}}"><a href="{{ route('admin.users.show', Auth::user()->id) }}"><i class='fa fa-user'></i> <span>Mon compte</span></a></li>
+            <li class="{{isActiveRoutes('admin.companies')}}"><a href="{{ route('admin.companies.show', Auth::user()->company->id) }}"><i class='fa fa-building'></i> <span>Mon entreprise</span></a></li>
             <li><a href="#"><i class='fa fa-shopping-cart'></i> <span>Ma commande</span></a></li>
             <li><a href="#"><i class='fa fa-users'></i> <span>L'équipe</span></a></li>
         </ul>

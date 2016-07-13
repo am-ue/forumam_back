@@ -18,7 +18,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $elements = '
+        $headerActions = '
             <button class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal" 
                 href="' . action('Admin\UserController@create') . '">
                     Ajouter un utilisateur
@@ -30,7 +30,7 @@ class UserController extends Controller
             'vars'        => 'utilisateurs',
             'description' => 'liste',
             'ajax_url'    => action('Admin\UserController@datatable'),
-            'elements'    => $elements,
+            'elements'    => $headerActions,
         ];
         $columns = [
             'Nom'        => 'full_name',
@@ -75,7 +75,7 @@ class UserController extends Controller
         $user->password = $request->input('password');
         $user->save();
 
-        alert()->success($user->full_name.' créé avec succés.', 'C\'est tout bon !')->autoclose(7000);
+        alert()->success($user->full_name . ' créé avec succés.', 'C\'est tout bon !')->autoclose(7000);
         return;
     }
 
@@ -83,23 +83,32 @@ class UserController extends Controller
     public function show(User $user)
     {
 
+        $headerActions = '
+            <a class="btn btn-default btn-sm pull-right" 
+                href="' . action('Admin\UserController@edit', $user->id) . '">
+                    Editer
+            </a>
+        ';
+
         $config = [
             'var'         => 'utilisateur',
             'vars'        => 'utilisateurs',
             'description' => $user->full_name,
+            'elements'    => $headerActions,
         ];
         Carbon::setLocale('fr');
-        $columns = [
-            'Prénom'        => $user->first_name,
-            'Nom'           => $user->last_name,
-            'Email'         => $user->email,
-            'Télephone'     => $user->phone,
-            'Entreprise'    => $user->company->name,
-            'Fonction'      => $user->role,
-            'Créé le'       => $user->created_at->toFormattedDateString(),
-            'Mis à jour le' => $user->updated_at->toFormattedDateString(),
+        $fields = [
+            'first_name'   => 'txt',
+            'last_name'    => 'txt',
+            'email'        => 'txt',
+            'phone'        => 'txt',
+            'company_id' => link_to_route('admin.companies.show', $user->company->name, $user->company->id),
+            'role'         => 'txt',
+            'created_at'   => 'date',
+            'updated_at'   => 'date',
         ];
-        return view('admin.show', compact('config', 'columns'));
+        $object = $user;
+        return view('admin.show', compact('config', 'fields', 'object'));
     }
 
 
@@ -114,10 +123,9 @@ class UserController extends Controller
         ];
         Form::setModel($user);
 
-        $company_field = !\Auth::user()->is_admin ?
+        $company_field = \Auth::user()->is_admin ?
             Form::select('company_id', Company::pluck('name', 'id'), null, ['class' => 'form-control', 'rel' => 'select2']) :
-            Form::text('company_name', $user->company->name, ['class' => 'form-control', 'disabled'])
-        ;
+            Form::text('company_name', $user->company->name, ['class' => 'form-control', 'disabled']);
 
 
         $fields = [
@@ -138,7 +146,7 @@ class UserController extends Controller
     {
         $user->fill($request->all());
 
-        if (\Auth::user()->is_admin && $request->has('company_id')) {
+        if ($request->has('company_id')) {
             $user->company_id = $request->input('company_id');
         }
 
@@ -148,8 +156,8 @@ class UserController extends Controller
 
         $user->save();
 
-        alert()->success($user->full_name.' modifié avec succés.', 'C\'est tout bon !')->autoclose(7000);
-        return redirect()->action('Admin\UserController@index');
+        alert()->success($user->full_name . ' modifié avec succés.', 'C\'est tout bon !')->autoclose(7000);
+        return redirect()->back();
 
     }
 
