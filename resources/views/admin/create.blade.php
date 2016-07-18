@@ -21,3 +21,4 @@
 
 <script src="{{ asset('js/modal-forms.js') }}" type="text/javascript"></script>
 <script src={{ asset('js/forms.js') }}></script>
+

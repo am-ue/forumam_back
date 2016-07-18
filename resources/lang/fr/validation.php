@@ -163,6 +163,9 @@ return [
 
         'color' => 'Couleur',
         'map'   => 'Plan',
+
+        'price' => 'Prix',
+        'type' => 'Type',
     ],
 
 ];

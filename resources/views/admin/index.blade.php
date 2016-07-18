@@ -80,7 +80,7 @@
                     $(oSettings.nTableWrapper).find('.dataTables_paginate').hide();
                     var $indexInfo = $('#index_info');
                     $indexInfo.text('Affichage des ' + oSettings.fnRecordsDisplay() + ' {!! $config['vars'] !!}');
-                    if (oSettings.fnRecordsDisplay() == 1) {
+                    if (oSettings.fnRecordsDisplay() <= 1) {
                         $indexInfo.hide();
                     }
                 } else {

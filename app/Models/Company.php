@@ -48,6 +48,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read \App\Models\Category $category
+ * @property-read mixed $contact
  */
 class Company extends Model
 {

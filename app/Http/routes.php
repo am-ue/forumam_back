@@ -20,6 +20,8 @@ Route::group(['prefix' => config('admin.path'), 'namespace' => 'Admin'], functio
             Route::get('categories/datatable', 'CategoryController@datatable');
             Route::resource('categories', 'CategoryController');
 
+            Route::get('options/datatable', 'OptionController@datatable');
+            Route::resource('options', 'OptionController');
         });
     });
 

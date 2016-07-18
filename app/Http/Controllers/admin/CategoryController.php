@@ -132,7 +132,7 @@ class CategoryController extends Controller
         alert()->success('<strong>' . $category->name . '</strong> a été modifiée avec succés.', 'C\'est tout bon !')
             ->html()->autoclose(7000);
 
-        return redirect()->action('Admin\CategoryController@show');
+        return redirect()->action('Admin\CategoryController@show', $category->id);
     }
 
     public function destroy(Category $category)
