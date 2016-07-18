@@ -6,13 +6,13 @@
  *
  * @return string $output
  */
-function isActiveRoutes($routes, $output = "active")
+function areActiveRoutes($routes, $output = "active")
 {
     if (!is_array($routes)) {
-        isActiveRoute($routes, $output);
+        return isActiveRoute($routes, $output);
     } else {
         foreach ($routes as $route) {
-            isActiveRoute($route, $output);
+            return isActiveRoute($route, $output);
         }
     }
     return '';
