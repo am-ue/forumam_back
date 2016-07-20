@@ -13,7 +13,7 @@ class CreateFirstCompany extends Migration
      */
     public function up()
     {
-        Company::create(
+        Company::forceCreate(
             [
                 'name'            => 'Forum Arts et Métiers',
                 'website'         => url('/'),

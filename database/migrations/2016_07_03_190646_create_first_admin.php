@@ -13,7 +13,7 @@ class CreateFirstAdmin extends Migration
      */
     public function up()
     {
-        User::create([
+        User::forceCreate([
             'first_name' => 'Admin',
             'last_name'  => 'ForumAM',
             'phone'      => '0',
