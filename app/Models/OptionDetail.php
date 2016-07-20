@@ -7,19 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\OptionDetail
  *
- * @mixin \Eloquent
  * @property integer $id
- * @property integer $id_option
+ * @property integer $option_id
  * @property string $label
  * @property integer $price
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionDetail whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionDetail whereIdOption($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionDetail whereOptionId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionDetail whereLabel($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionDetail wherePrice($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionDetail whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionDetail whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class OptionDetail extends Model
 {

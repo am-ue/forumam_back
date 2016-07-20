@@ -64,7 +64,6 @@ class UserController extends Controller
         ];
 
         return view('admin.create', compact('config', 'fields'));
-
     }
 
 
@@ -158,7 +157,6 @@ class UserController extends Controller
 
         alert()->success($user->full_name . ' modifié avec succés.', 'C\'est tout bon !')->autoclose(7000);
         return redirect()->back();
-
     }
 
     public function destroy(User $user)

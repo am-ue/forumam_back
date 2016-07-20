@@ -63,7 +63,6 @@ class CompanyController extends Controller
         ];
 
         return view('admin.create', compact('config', 'fields'));
-
     }
 
 
@@ -84,7 +83,6 @@ class CompanyController extends Controller
         alert()->success('<strong>' . $company->name . '</strong> a été créée avec succés.', 'C\'est tout bon !')
             ->html()->autoclose(7000);
         return response();
-
     }
 
 

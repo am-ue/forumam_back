@@ -66,36 +66,36 @@ $('document').ready(function() {
         }).always(function(response, status) {
 
             // Reset errors.
-            $('.form-group').removeClass('has-error');
-            $('.form-group').find('.help-block').remove();
+            $('.form-group').removeClass('has-error').find('.help-block').remove();
 
-            // Reset submit.
-            if (submit.is('button')) {
-                submit.html('Renvoyer');
-            } else if (submit.is('input')) {
-                submit.val('Renvoyer');
-            }
 
-            // Check for errors.
-            if (response.status == 422) {
-                var errors = $.parseJSON(response.responseText);
-
-                // Iterate through errors object.
-                $.each(errors, function(field, message) {
-                    console.error(field+': '+message);
-                    var formGroup = $('[name='+field+']', form).closest('.form-group');
-                    formGroup.addClass('has-error').append('<p class="help-block">'+message+'</p>');
-                });
-
-            } else if (response.status == 413){
-                var formGroup = $('[type=file]', form).closest('.form-group');
-                formGroup.addClass('has-error').append('<p class="help-block">Le fichier semble trop gros, merci de réessayer avec un fichier plus léger.</p>');
-
-            } else if (response.status == 200) {
+            if (response.status == 200) {
                 location.reload();
-
             } else {
-                swal("Oups !", "Un problème est survenu...", "error");
+                // Reset submit.
+                if (submit.is('button')) {
+                    submit.html('Renvoyer');
+                } else if (submit.is('input')) {
+                    submit.val('Renvoyer');
+                }
+                // Check for errors.
+                if (response.status == 422) {
+                    var errors = $.parseJSON(response.responseText);
+
+                    // Iterate through errors object.
+                    $.each(errors, function (field, message) {
+                        console.error(field + ': ' + message);
+                        var formGroup = $('[name=' + field + ']', form).closest('.form-group');
+                        formGroup.addClass('has-error').append('<p class="help-block">' + message + '</p>');
+                    });
+
+                } else if (response.status == 413) {
+                    var formGroup = $('[type=file]', form).closest('.form-group');
+                    formGroup.addClass('has-error').append('<p class="help-block">Le fichier semble trop gros, merci de réessayer avec un fichier plus léger.</p>');
+
+                } else {
+                    swal("Oups !", "Un problème est survenu...", "error");
+                }
             }
         });
     });

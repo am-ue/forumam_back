@@ -16,10 +16,14 @@ class OptionController extends Controller
     public function index()
     {
         $elements = '
-            <button class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal" 
-                href="' . action('Admin\OptionController@create') . '">
+            <button class="btn btn-default btn-sm pull-right" data-toggle="modal" 
+                data-target="#modal" href="' . action('Admin\OptionController@create') . '">
                     Ajouter une option
             </button>
+            <a class="btn btn-default btn-sm pull-right" style="margin-right:5px" 
+                href="' . route('admin.option-relations.index') . '">
+                    Gérer les relations
+            </a>
         ';
 
         $config = [
@@ -53,7 +57,6 @@ class OptionController extends Controller
         ];
 
         return view('admin.create', compact('config', 'fields'));
-
     }
 
 
@@ -68,6 +71,12 @@ class OptionController extends Controller
                     $details[] = new OptionDetail(['label' => $label, 'price' => $price]);
                 }
             }
+            if (count($details) < 2) {
+                return redirect()->back()
+                    ->withErrors(['price' => 'Merci de mettre au moins deux choix pour le menu, 
+                    ou de selectionner un autre type de champ']);
+            }
+            OptionDetail::whereOptionId($option->id)->delete();
             $option->details()->saveMany($details);
         } else {
             $option->details()->save(new OptionDetail(['price' => $request->input('price')]));
@@ -137,7 +146,7 @@ class OptionController extends Controller
 
     public function update(OptionRequest $request, Option $option)
     {
-        $option->save($request->all());
+        $option->update($request->all());
         if ($option->type == 'select') {
             $details = [];
             foreach ($request->input('label') as $id => $label) {
@@ -146,6 +155,12 @@ class OptionController extends Controller
                     $details[] = new OptionDetail(['label' => $label, 'price' => $price]);
                 }
             }
+            if (count($details) < 2) {
+                return redirect()->back()
+                    ->withErrors(['price' => 'Merci de mettre au moins deux choix pour le menu, 
+                    ou de selectionner un autre type de champ']);
+            }
+            OptionDetail::whereOptionId($option->id)->delete();
             $option->details()->saveMany($details);
         } else {
             $option->details()->save(new OptionDetail(['price' => $request->input('price')]));
@@ -184,7 +199,7 @@ class OptionController extends Controller
                         $return .= ' (' . $detail->label . '), ';
                     }
                 }
-                return $return;
+                return rtrim($return, ', ');
             })
             ->editColumn('type', function (Option $option) {
                 return Option::$types[$option->type];
