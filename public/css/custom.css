@@ -1,0 +1,10 @@
+.navbar-nav > .user-menu > .dropdown-menu > li.user-header {
+  height: inherit; }
+
+.headerElems {
+  float: right;
+  display: block;
+  margin-top: -28px;
+  position: relative; }
+
+/*# sourceMappingURL=custom.css.map */
