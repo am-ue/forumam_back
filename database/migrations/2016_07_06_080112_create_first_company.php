@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Company;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -12,7 +13,7 @@ class CreateFirstCompany extends Migration
      */
     public function up()
     {
-        factory(\App\Models\Company::class)->create(
+        Company::create(
             [
                 'name'            => 'Forum Arts et Métiers',
                 'website'         => url('/'),
