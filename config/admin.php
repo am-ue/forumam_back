@@ -2,7 +2,7 @@
 
 return [
     'domain' => 'admin.'.env('APP_DOMAIN'),
-    'path' => '', // Caution, modify the restfull resources' route names.
+    'path' => '', // Caution, modify the restfull resources' route names and the VerifyCsrfToken Exception.
 
     'sitename' => [
         'short' => 'AM',
