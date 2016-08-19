@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_PROTOCOL').'://'.env('APP_DOMAIN'),
 
     /*
     |--------------------------------------------------------------------------

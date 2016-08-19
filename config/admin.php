@@ -1,8 +1,8 @@
 <?php
 
 return [
-    
-    'path' => 'admin',
+    'domain' => 'admin.'.env('APP_DOMAIN'),
+    'path' => '', // Caution, modify the restfull resources' route names.
 
     'sitename' => [
         'short' => 'AM',

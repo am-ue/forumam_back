@@ -24,8 +24,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        //
-
+        $router->singularResourceParameters();
         parent::boot($router);
     }
 
@@ -37,25 +36,27 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map(Router $router)
     {
-        $this->mapWebRoutes($router);
-
-        //
+        $this->mapAdminRoutes($router);
     }
 
     /**
-     * Define the "web" routes for the application.
+     * Define the "admin" routes for the application.
      *
      * These routes all receive session state, CSRF protection, etc.
      *
      * @param  \Illuminate\Routing\Router  $router
      * @return void
      */
-    protected function mapWebRoutes(Router $router)
+    protected function mapAdminRoutes(Router $router)
     {
         $router->group([
-            'namespace' => $this->namespace, 'middleware' => 'web',
+            'domain'     => config('admin.domain'),
+            'prefix' => config('admin.path'),
+            'as'         => 'admin.',
+            'namespace'  => 'App\Http\Controllers\Admin',
+            'middleware' => 'web',
         ], function ($router) {
-            require app_path('Http/routes.php');
+            require app_path('Http/Routes/admin.php');
         });
     }
 }
