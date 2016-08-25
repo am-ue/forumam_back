@@ -37,6 +37,7 @@ class RouteServiceProvider extends ServiceProvider
     public function map(Router $router)
     {
         $this->mapAdminRoutes($router);
+        $this->mapApiRoutes($router);
     }
 
     /**
@@ -57,6 +58,25 @@ class RouteServiceProvider extends ServiceProvider
             'middleware' => 'web',
         ], function ($router) {
             require app_path('Http/Routes/admin.php');
+        });
+    }
+
+    /**
+     * Define the "api" routes for the application.
+     *
+     * @param  \Illuminate\Routing\Router $router
+     *
+     * @return void
+     */
+    protected function mapApiRoutes(Router $router)
+    {
+        $router->group([
+            'domain'     => env('API_SUBDOMAIN').'.'.env('APP_DOMAIN'),
+            'namespace'  => 'App\Http\Controllers\Api',
+            'as'         => 'api.',
+            'middleware' => 'api',
+        ], function ($router) {
+            require app_path('Http/Routes/api.php');
         });
     }
 }

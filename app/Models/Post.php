@@ -34,4 +34,18 @@ class Post extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function toArray()
+    {
+        return array_filter([
+            'id'          => $this->id,
+            'type'        => $this->type,
+            'title'       => $this->title,
+            'description' => $this->description,
+            'youtube_id'  => $this->youtube_id,
+            'img_url'     => $this->img ? asset($this->img) : null,
+            'created_at'  => $this->created_at->toDateTimeString(),
+            'updated_at'  => $this->updated_at->toDateTimeString(),
+        ]);
+    }
 }

@@ -81,4 +81,31 @@ class Company extends Model
     {
         return $this->hasMany(Post::class);
     }
+
+    public function scopeShowable($query)
+    {
+        /** @var Company $query */
+        return $query->whereActive(1)->wherePublic(1);
+    }
+
+    public function toArray()
+    {
+        return array_filter([
+            'id'          => $this->id,
+            'name'        => $this->name,
+            'website'     => $this->website,
+            'logo_url'    => asset($this->logo),
+            'summary'     => $this->summary,
+            'description' => $this->description,
+            'figures'     => $this->figures,
+            'staffing'    => $this->staffing,
+            'profiles'    => $this->profiles,
+            'more'        => $this->more,
+            'stand'       => $this->stand,
+            'category'    => $this->category->toArray(),
+            'posts'       => $this->posts->toArray(),
+            'created_at'  => $this->created_at->toDateTimeString(),
+            'updated_at'  => $this->updated_at->toDateTimeString(),
+        ]);
+    }
 }
