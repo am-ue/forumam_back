@@ -18,6 +18,7 @@ class CreateFirstCompany extends Migration
                 'name'            => 'Forum Arts et Métiers',
                 'website'         => url('/'),
                 'description'     => '',
+                'summary'         => '',
                 'figures'         => '',
                 'staffing'        => '',
                 'profiles'        => '',

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -49,22 +50,17 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property-read \App\Models\Category $category
  * @property-read mixed $contact
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Company showable()
+ * @property string $summary
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Post[] $posts
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereSummary($value)
  */
 class Company extends Model
 {
     const UPLOAD_PATH = 'img/uploads/companies/';
-
-    public $guarded = ['stand', 'active', 'public', 'logo'];
-
-
-    public $appends = ['contact'];
-
     public static $billing_methods = ['Chèque', 'Virement', 'CB'];
-
-    public function users()
-    {
-        return $this->hasMany(User::class);
-    }
+    public $guarded = ['stand', 'active', 'public', 'logo'];
+    public $appends = ['contact'];
 
     public function category()
     {
@@ -74,5 +70,15 @@ class Company extends Model
     public function getContactAttribute()
     {
         return $this->users()->first();
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 }

@@ -29,11 +29,12 @@ $factory->define(App\Models\Company::class, function (Faker\Generator $faker) {
         'name'            => $faker->company,
         'website'         => $faker->url,
         'description'     => $faker->paragraph,
+        'summary'         => $faker->sentence,
         'figures'         => $faker->paragraph,
         'staffing'        => $faker->paragraph,
         'profiles'        => $faker->paragraph,
         'more'            => $faker->paragraph,
-        'logo'            => $faker->image(),
+        'logo'            => '/img/ue/square_logo_white.png',
         'stand'           => $faker->word,
         'billing_contact' => $faker->paragraph,
         'billing_address' => $faker->paragraph,
@@ -42,5 +43,16 @@ $factory->define(App\Models\Company::class, function (Faker\Generator $faker) {
         'category_id'     => rand(1, 4),
         'active'          => rand(0, 1),
         'public'          => rand(0, 1),
+    ];
+});
+
+$factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
+    return [
+        'type'        => ['article', 'video'][$video = rand(0,1)],
+        'title'       => $faker->words(3, true),
+        'description' => $faker->paragraph,
+        'youtube_id'  => $video ? str_random(6) : null,
+        'img'     => $video ? null :'/img/ue/square_logo.png',
+        'company_id' => array_rand([\App\Models\Company::pluck('id')->random(), null])
     ];
 });

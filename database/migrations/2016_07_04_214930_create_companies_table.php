@@ -17,6 +17,7 @@ class CreateCompaniesTable extends Migration
             $table->string('name');
             $table->string('website');
             $table->text('description');
+            $table->text('summary');
             $table->text('figures');
             $table->text('staffing');
             $table->text('profiles');
