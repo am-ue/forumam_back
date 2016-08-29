@@ -23,7 +23,7 @@
 					<br>
 					<div class="form-group">
 						{!! Form::submit( 'Enregistrer', ['class'=>'btn btn-success']) !!}
-                        <a class="btn btn-default pull-right" href="{{ $config['cancel_url'] }}">Annuler</a>
+						{!! Form::reset('Réinitialiser', ['class' => 'btn btn-default pull-right']) !!}
 					</div>
 				{!! Form::close() !!}
 			</div>

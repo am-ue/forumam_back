@@ -71,8 +71,12 @@ class UserViewsMaker extends ViewsMaker
 
         $this->headerActions = [
             $this->headerActionLinkButton(
-                action('Admin\UserController@edit', $user->id),
-                "Editer"
+                action('Admin\UserController@index'),
+                "Revenir à la liste"
+            ),
+            $this->headerActionLinkButton(
+                action('Admin\UserController@show', $user->id),
+                "Voir"
             ),
         ];
 
