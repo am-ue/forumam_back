@@ -1,3 +1,3 @@
 <?php
 
-Route::resource('companies', 'CompanyController', ['only' => ['index']]);
+Route::resource('companies', 'CompanyController', ['only' => ['index', 'show']]);

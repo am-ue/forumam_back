@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'domain' => 'admin.'.config('app.domain'),
+    'subdomain' => 'admin',
     'path' => '', // Caution, modify the restfull resources' route names and the VerifyCsrfToken Exception.
 
     'sitename' => [

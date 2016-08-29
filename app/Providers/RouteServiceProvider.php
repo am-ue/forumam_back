@@ -51,7 +51,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapAdminRoutes(Router $router)
     {
         $router->group([
-            'domain'     => config('admin.domain'),
+            'domain'     => config('admin.subdomain').'.'.config('app.domain'),
             'prefix' => config('admin.path'),
             'as'         => 'admin.',
             'namespace'  => 'App\Http\Controllers\Admin',

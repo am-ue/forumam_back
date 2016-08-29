@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -29,7 +30,21 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->redirectTo = route('admin.home');
-        $this->redirectAfterLogout = route('admin.login');
+        $this->redirectAfterLogout = config('app.protocol').'://'.config('app.domain');
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+    }
+
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        return redirect()->route('admin.login')
+            ->withInput($request->only($this->loginUsername(), 'remember'))
+            ->withErrors([
+                $this->loginUsername() => $this->getFailedLoginMessage(),
+            ]);
+    }
+
+    protected function getRedirectUrl()
+    {
+        return action('Admin\Auth\AuthController@showLoginForm');
     }
 }
