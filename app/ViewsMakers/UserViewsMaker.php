@@ -1,0 +1,97 @@
+<?php
+
+
+namespace App\ViewsMakers;
+
+use App\Models\Company;
+use App\Models\User;
+use Form;
+
+class UserViewsMaker extends ViewsMaker
+{
+
+    public function index()
+    {
+        $this->headerActions = [
+            $this->headerActionModalButton(
+                action('Admin\UserController@create'),
+                "Ajouter un utilisateur"
+            ),
+        ];
+
+        return $this;
+    }
+
+    public function create()
+    {
+        $this->fields = [
+            $this->textField('first_name'),
+            $this->textField('last_name'),
+            $this->textField('phone'),
+            $this->selectField('company_id', Company::pluck('name', 'id')),
+            $this->textField('role'),
+            $this->textField('email'),
+            $this->passwordField('password'),
+            $this->passwordField('password_confirmation'),
+        ];
+
+        return $this;
+    }
+
+    public function show(User $user)
+    {
+        $this->model = $user;
+
+        $this->headerActions = [
+            $this->headerActionLinkButton(
+                action('Admin\UserController@edit', $user->id),
+                "Editer"
+            ),
+        ];
+
+
+        $this->fields = [
+            $this->showText('first_name'),
+            $this->showText('last_name'),
+            $this->showMailUrl('email'),
+            $this->showText('phone'),
+            $this->showRelationLink('company', 'name'),
+            $this->showText('role'),
+            $this->showDate('created_at'),
+            $this->showDate('updated_at'),
+        ];
+
+        return $this;
+    }
+
+    public function edit(User $user)
+    {
+        $this->model = $user;
+
+
+        $this->headerActions = [
+            $this->headerActionLinkButton(
+                action('Admin\UserController@edit', $user->id),
+                "Editer"
+            ),
+        ];
+
+        Form::setModel($user);
+        $company_field = auth()->user()->is_admin ?
+            $this->selectField('company_id', Company::pluck('name', 'id')) :
+            $this->textField('company_name', ['disabled'], $user->company->name);
+
+        $this->fields = [
+            $this->textField('first_name'),
+            $this->textField('last_name'),
+            $this->textField('phone'),
+            $company_field,
+            $this->textField('role'),
+            $this->textField('email'),
+            $this->passwordField('password'),
+            $this->passwordField('password_confirmation'),
+        ];
+
+        return $this;
+    }
+}

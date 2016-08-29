@@ -4,64 +4,43 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Company;
 use App\Models\User;
+use App\ViewsMakers\UserViewsMaker;
 use Carbon\Carbon;
 use Form;
-use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\View\View;
 use Yajra\Datatables\Datatables;
 
 class UserController extends Controller
 {
 
-    public function index()
+    public function index(UserViewsMaker $viewsMaker)
     {
-        $headerActions = '
-            <button class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal" 
-                href="' . action('Admin\UserController@create') . '">
-                    Ajouter un utilisateur
-            </button>
-        ';
-
         $config = [
             'var'         => 'utilisateur',
             'vars'        => 'utilisateurs',
             'description' => 'liste',
             'ajax_url'    => action('Admin\UserController@datatable'),
-            'elements'    => $headerActions,
+            'elements'    => $viewsMaker->index()->headerActions,
         ];
         $columns = [
             'Nom'        => 'full_name',
             'Email'      => 'email',
             'Entreprise' => 'company.name',
         ];
+
         return view('admin.index', compact('config', 'columns'));
     }
 
 
-    public function create()
+    public function create(UserViewsMaker $viewsMaker)
     {
         $config = [
             'title'     => 'Ajouter un utilisateur',
             'store_url' => action('Admin\UserController@store'),
         ];
-        $fields = [
-            [$field = 'first_name', Form::text($field, null, ['class' => 'form-control'])],
-            [$field = 'last_name', Form::text($field, null, ['class' => 'form-control'])],
-            [$field = 'phone', Form::text($field, null, ['class' => 'form-control'])],
-            [$field = 'company_id', Form::select(
-                $field,
-                Company::pluck('name', 'id'),
-                null,
-                ['class' => 'form-control', 'rel' => 'select2']
-            )],
-            [$field = 'role', Form::text($field, null, ['class' => 'form-control'])],
-            [$field = 'email', Form::email($field, null, ['class' => 'form-control'])],
-            [$field = 'password', Form::password($field, ['class' => 'form-control'])],
-            [$field = 'password_confirmation', Form::password($field, ['class' => 'form-control'])],
-        ];
+        $fields = $viewsMaker->create()->fields;
 
         return view('admin.create', compact('config', 'fields'));
     }
@@ -79,64 +58,37 @@ class UserController extends Controller
     }
 
 
-    public function show(User $user)
+    public function show(User $user, UserViewsMaker $viewsMaker)
     {
-
-        $headerActions = '
-            <a class="btn btn-default btn-sm pull-right" 
-                href="' . action('Admin\UserController@edit', $user->id) . '">
-                    Editer
-            </a>
-        ';
+        $viewsMaker = $viewsMaker->show($user);
 
         $config = [
             'var'         => 'utilisateur',
             'vars'        => 'utilisateurs',
             'description' => $user->full_name,
-            'elements'    => $headerActions,
+            'elements'    => $viewsMaker->headerActions,
         ];
-        Carbon::setLocale('fr');
-        $fields = [
-            'first_name'   => 'txt',
-            'last_name'    => 'txt',
-            'email'        => 'txt',
-            'phone'        => 'txt',
-            'company_id' => link_to_route('admin.companies.show', $user->company->name, $user->company->id),
-            'role'         => 'txt',
-            'created_at'   => 'date',
-            'updated_at'   => 'date',
-        ];
+        $fields = $viewsMaker->fields;
         $object = $user;
         return view('admin.show', compact('config', 'fields', 'object'));
     }
 
 
-    public function edit(User $user)
+    public function edit(User $user, UserViewsMaker $viewsMaker)
     {
+        $viewsMaker = $viewsMaker->edit($user);
+
         $config = [
             'var'         => 'utilisateur',
             'vars'        => 'utilisateurs',
             'description' => $user->full_name,
             'update_url'  => action('Admin\UserController@update', $user->id),
             'cancel_url'  => action('Admin\UserController@index'),
+            'elements'    => $viewsMaker->headerActions,
+
         ];
-        Form::setModel($user);
 
-        $company_field = \Auth::user()->is_admin ?
-            Form::select('company_id', Company::pluck('name', 'id'), null, ['class' => 'form-control', 'rel' => 'select2']) :
-            Form::text('company_name', $user->company->name, ['class' => 'form-control', 'disabled']);
-
-
-        $fields = [
-            [$field = 'first_name', Form::text($field, null, ['class' => 'form-control'])],
-            [$field = 'last_name', Form::text($field, null, ['class' => 'form-control'])],
-            [$field = 'phone', Form::text($field, null, ['class' => 'form-control'])],
-            [$field = 'company_id', $company_field],
-            [$field = 'role', Form::text($field, null, ['class' => 'form-control'])],
-            [$field = 'email', Form::email($field, null, ['class' => 'form-control'])],
-            [$field = 'password', Form::password($field, ['class' => 'form-control'])],
-            [$field = 'password_confirmation', Form::password($field, ['class' => 'form-control'])],
-        ];
+        $fields = $viewsMaker->fields;
         $object = $user;
         return view('admin.edit', compact('config', 'fields', 'object'));
     }
