@@ -39,7 +39,11 @@ return [
     |
     */
 
-    'url' => env('APP_PROTOCOL').'://'.env('APP_DOMAIN'),
+    'url' => config('app.protocol').'://'.config('app.domain'),
+
+    'domain' => env('APP_DOMAIN', 'localhost'),
+    'protocol' => env('APP_PROTOCOL', 'http'),
+    'api_subdomain' => env('API_SUBDOMAIN','api'),
 
     /*
     |--------------------------------------------------------------------------

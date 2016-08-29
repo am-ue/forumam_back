@@ -71,7 +71,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes(Router $router)
     {
         $router->group([
-            'domain'     => env('API_SUBDOMAIN').'.'.env('APP_DOMAIN'),
+            'domain'     => config('app.api_subdomain').'.'.config('app.domain'),
             'namespace'  => 'App\Http\Controllers\Api',
             'as'         => 'api.',
             'middleware' => 'api',

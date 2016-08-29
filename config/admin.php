@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'domain' => 'admin.'.env('APP_DOMAIN'),
+    'domain' => 'admin.'.config('app.domain'),
     'path' => '', // Caution, modify the restfull resources' route names and the VerifyCsrfToken Exception.
 
     'sitename' => [
