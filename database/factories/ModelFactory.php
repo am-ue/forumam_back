@@ -20,7 +20,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'role'           => $faker->jobTitle,
         'password'       => bcrypt(str_random(10)),
         'remember_token' => str_random(10),
-        'company_id'     => rand(2, 10),
+        'company_id'     => \App\Models\Company::where('id', '!=', 1)->pluck('id')->random(),
     ];
 });
 
@@ -40,19 +40,21 @@ $factory->define(App\Models\Company::class, function (Faker\Generator $faker) {
         'billing_address' => $faker->paragraph,
         'billing_delay'   => $faker->words(3, true),
         'billing_method'  => $faker->words(3, true),
-        'category_id'     => rand(1, 4),
+        'category_id'     => \App\Models\Category::pluck('id')->random(),
         'active'          => rand(0, 1),
         'public'          => rand(0, 1),
     ];
 });
 
 $factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
+    $youtube_ids = ['Flzg8GgfB1k', 'NW4a6AfwHPA', 'swVBfayw0xw', 'EEPfKWzHT6Y'];
+    $company_ids = [\App\Models\Company::where('id', '!=', 1)->pluck('id')->random(), null];
     return [
         'type'        => ['article', 'video'][$video = rand(0,1)],
         'title'       => $faker->words(3, true),
         'description' => $faker->paragraph,
-        'youtube_id'  => $video ? str_random(6) : null,
+        'youtube_id'  => $video ? $youtube_ids[array_rand($youtube_ids)] : null,
         'img'     => $video ? null :'/img/ue/square_logo.png',
-        'company_id' => array_rand([\App\Models\Company::pluck('id')->random(), null])
+        'company_id' => $company_ids[array_rand($company_ids)],
     ];
 });
