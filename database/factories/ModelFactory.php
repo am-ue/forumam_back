@@ -54,7 +54,7 @@ $factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
         'title'       => $faker->words(3, true),
         'description' => $faker->paragraph,
         'youtube_id'  => $video ? $youtube_ids[array_rand($youtube_ids)] : null,
-        'img'     => $video ? null :'/img/ue/square_logo.png',
+        'img'     => $video ? null :'http://blog.collectifitem.com/wp-content/uploads/2012/12/01_01-HR1111_96851.jpg',
         'company_id' => $company_ids[array_rand($company_ids)],
     ];
 });
