@@ -37,6 +37,8 @@ class Post extends Model
 
     public function toArray()
     {
+        /** @var Company $company */
+        $company = $this->company()->get(['id', 'name', 'summary', 'logo'])->first();
         return array_filter([
             'id'          => $this->id,
             'type'        => $this->type,
@@ -46,6 +48,7 @@ class Post extends Model
             'img_url'     => $this->img ? asset($this->img) : null,
             'created_at'  => $this->created_at->toDateTimeString(),
             'updated_at'  => $this->updated_at->toDateTimeString(),
+            'company'     => $company ? $company->toMinArray() : null,
         ]);
     }
 }

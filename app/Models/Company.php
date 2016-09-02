@@ -102,10 +102,20 @@ class Company extends Model
             'profiles'    => $this->profiles,
             'more'        => $this->more,
             'stand'       => $this->stand,
-            'category'    => $this->category->toArray(),
-            'posts'       => $this->posts->toArray(),
+            'category'    => $this->category ? $this->category->toArray() : null,
+            'posts'       => $this->posts ? $this->posts->toArray() : null,
             'created_at'  => $this->created_at->toDateTimeString(),
             'updated_at'  => $this->updated_at->toDateTimeString(),
         ]);
+    }
+
+    public function toMinArray()
+    {
+        return [
+            'id'       => $this->id,
+            'name'     => $this->name,
+            'logo_url' => asset($this->logo),
+            'summary'  => $this->summary,
+        ];
     }
 }

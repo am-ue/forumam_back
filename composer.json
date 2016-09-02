@@ -9,7 +9,9 @@
         "laravel/framework": "5.2.*",
         "uxweb/sweet-alert": "~1.1",
         "laravelcollective/html": "^5.2",
-        "yajra/laravel-datatables-oracle": "^6.15"
+        "yajra/laravel-datatables-oracle": "^6.15",
+        "thomasruiz/larapie": "dev-master",
+        "barryvdh/laravel-cors": "^0.8.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -56,5 +58,7 @@
     },
     "config": {
         "preferred-install": "dist"
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

@@ -163,6 +163,8 @@ return [
         UxWeb\SweetAlert\SweetAlertServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Larapie\LarapieServiceProvider::class,
+        Barryvdh\Cors\ServiceProvider::class,
     ],
 
     /*
