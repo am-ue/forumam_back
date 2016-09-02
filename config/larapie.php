@@ -3,7 +3,7 @@
 return [
     'group' => [
         'as'         => 'api.',
-        'domain'     => config('app.api_subdomain').'.'.config('app.domain'),
+        'domain'     =>  env('API_SUBDOMAIN','api').'.'.env('APP_DOMAIN', 'localhost'),
         'middleware' => 'api',
     ],
 
