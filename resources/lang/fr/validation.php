@@ -177,6 +177,19 @@ return [
         'parent_value' => 'Quantité',
         'child_id'     => 'Enfant',
         'child_value'  => 'Quantité',
+
+        'company' => [
+            'name'    => 'nom de l\'entreprise',
+            'website' => 'site internet',
+            'summary' => 'résumé des activités',
+        ],
+        'user'    => [
+            'first_name' => 'prénom du responsable',
+            'last_name'  => 'nom du responsable',
+            'phone'      => 'téléphone',
+            'email'      => 'email',
+            'password'   => 'mot de passe',
+        ],
     ],
 
 ];

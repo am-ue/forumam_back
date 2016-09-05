@@ -99,7 +99,7 @@ class OptionRelationController extends Controller
 
     public function datatable()
     {
-        $relations = OptionRelation::with('parent','child')->get();
+        $relations = OptionRelation::with('parent', 'child')->get();
         $out = Datatables::of($relations)
             ->addColumn('actions', function (OptionRelation $relation) {
                 $data['show_url'] = action('Admin\OptionRelationController@show', $relation->id);
