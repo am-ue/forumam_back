@@ -67,7 +67,7 @@ class Post extends Model
         ]);
     }
 
-    public function saveImg(Request $request)
+    public function addImg(Request $request)
     {
         if ($request->file('img')->isValid()) {
             $img = $request->file('img');

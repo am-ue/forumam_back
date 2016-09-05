@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 /**
  * App\Models\Category
@@ -40,5 +41,32 @@ class Category extends Model
             'color' => $this->color,
             'map_url' => asset($this->map),
         ];
+    }
+
+    public function addMap(Request $request)
+    {
+        if ($request->file('map')->isValid()) {
+            $map = $request->file('map');
+            $destinationPath = self::UPLOAD_PATH;
+            $extension = $map->getClientOriginalExtension();
+            $fileName = str_random() . '.' . $extension;
+            if ($request->file('map')->move($destinationPath, $fileName)) {
+                $this->deleteMap();
+                $this->map = $destinationPath . $fileName;
+            };
+        }
+    }
+
+    public function deleteMap()
+    {
+        if (!empty($this->map)) {
+            \File::delete(public_path($this->map));
+        }
+    }
+
+    public function delete()
+    {
+        $this->deleteMap();
+        parent::delete();
     }
 }

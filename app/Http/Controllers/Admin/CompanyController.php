@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\CompanyStoreRequest;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\User;
@@ -45,12 +46,11 @@ class CompanyController extends Controller
 
         $fields = $viewsMaker->create()->fields;
 
-
         return view('admin.create', compact('config', 'fields'));
     }
 
 
-    public function store(Requests\CompanyStoreRequest $request)
+    public function store(CompanyStoreRequest $request)
     {
         $company = new Company($request->all());
 

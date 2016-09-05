@@ -50,7 +50,7 @@ class PostController extends Controller
         $post = new Post($request->all());
         switch ($request->input('type')) {
             case 'article':
-                $post->saveImg($request);
+                $post->addImg($request);
                 break;
             case 'video':
                 $post->youtube_id = $request->input('youtube_id');
@@ -104,7 +104,7 @@ class PostController extends Controller
 
         switch ($request->input('type')) {
             case 'article':
-                $post->saveImg($request);
+                $post->addImg($request);
                 break;
             case 'video':
                 $post->youtube_id = $request->input('youtube_id');

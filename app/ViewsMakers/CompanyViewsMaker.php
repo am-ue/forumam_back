@@ -15,7 +15,7 @@ class CompanyViewsMaker extends ViewsMaker
         $this->headerActions = [
             $this->headerActionModalButton(
                 action('Admin\CompanyController@create'),
-                "Ajouter un utilisateur"
+                "Ajouter une entreprise"
             ),
         ];
 
@@ -42,6 +42,10 @@ class CompanyViewsMaker extends ViewsMaker
         $this->model = $company;
 
         $this->headerActions = [
+            $this->headerActionLinkButton(
+                action('Admin\CategoryController@index'),
+                "Revenir à la liste"
+            ),
             $this->headerActionLinkButton(
                 action('Admin\CompanyController@edit', $company->id),
                 "Editer"
@@ -92,10 +96,6 @@ class CompanyViewsMaker extends ViewsMaker
         ];
 
         Form::setModel($company);
-        $company_field = auth()->company()->is_admin ?
-            $this->selectField('company_id', Company::pluck('name', 'id')) :
-            $this->textField('company_name', ['disabled'], $company->company->name);
-
         $this->fields = [
             $this->textField('name'),
             $this->textField('website'),

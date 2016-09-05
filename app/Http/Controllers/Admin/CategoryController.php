@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\ViewsMakers\CategoryViewsMaker;
 use Carbon\Carbon;
 use Form;
 use App\Http\Requests;
@@ -13,21 +14,14 @@ use Yajra\Datatables\Datatables;
 class CategoryController extends Controller
 {
 
-    public function index()
+    public function index(CategoryViewsMaker $viewsMaker)
     {
-        $elements = '
-            <button class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal" 
-                href="' . action('Admin\CategoryController@create') . '">
-                    Ajouter une catégorie
-            </button>
-        ';
-
         $config = [
             'var'         => 'catégorie',
             'vars'        => 'catégories',
-            'description' => 'index',
+            'description' => 'liste',
             'ajax_url'    => action('Admin\CategoryController@datatable'),
-            'elements'    => $elements,
+            'elements'    => $viewsMaker->index()->headerActions,
         ];
         $columns = [
             'Nom' => 'name',
@@ -37,17 +31,13 @@ class CategoryController extends Controller
     }
 
 
-    public function create()
+    public function create(CategoryViewsMaker $viewsMaker)
     {
         $config = [
             'title'     => 'Ajouter une catégorie',
             'store_url' => action('Admin\CategoryController@store'),
         ];
-        $fields = [
-            [$field = 'name', Form::text($field, null, ['class' => 'form-control'])],
-            [$field = 'color', Form::text($field, null, ['class' => 'form-control', 'rel' => 'colorpicker'])],
-            [$field = 'map', Form::file($field)],
-        ];
+        $fields = $viewsMaker->create()->fields;
 
         return view('admin.create', compact('config', 'fields'));
     }
@@ -65,58 +55,37 @@ class CategoryController extends Controller
     }
 
 
-    public function show(Category $category)
+    public function show(Category $category, CategoryViewsMaker $viewsMaker)
     {
 
-        $headerActions = '
-            <a class="btn btn-default btn-sm pull-right" 
-                href="' . action('Admin\CategoryController@edit', $category->id) . '">
-                    Editer
-            </a>
-        ';
+        $viewsMaker = $viewsMaker->show($category);
+
         $config = [
             'var'         => 'catégorie',
             'vars'        => 'catégories',
             'description' => $category->name,
-            'elements'    => $headerActions,
+            'elements'    => $viewsMaker->headerActions,
         ];
 
-        Carbon::setLocale('fr');
-        $fields = [
-            'name'  => 'txt',
-            'color' => '<div style="background-color: ' . $category->color . '; width: 50px; height:50px"></div>',
-            'map'   => 'img',
-            'created_at'      => 'date',
-            'updated_at'      => 'date',
-        ];
+        $fields = $viewsMaker->fields;
         $object = $category;
         return view('admin.show', compact('config', 'fields', 'object'));
     }
 
 
-    public function edit(Category $category)
+    public function edit(Category $category, CategoryViewsMaker $viewsMaker)
     {
-        $headerActions = '
-            <a class="btn btn-default btn-sm pull-right" 
-                href="' . action('Admin\CategoryController@show', $category->id) . '">
-                    Voir
-            </a>
-        ';
+        $viewsMaker = $viewsMaker->edit($category);
+
         $config = [
             'var'         => 'catégorie',
             'vars'        => 'catégories',
             'description' => $category->name,
             'update_url'  => action('Admin\CategoryController@update', $category->id),
             'cancel_url'  => action('Admin\CategoryController@index'),
-            'elements'    => $headerActions,
+            'elements'    => $viewsMaker->headerActions,
         ];
-        Form::setModel($category);
-
-        $fields = [
-            [$field = 'name', Form::text($field, null, ['class' => 'form-control'])],
-            [$field = 'color', Form::text($field, null, ['class' => 'form-control', 'rel' => 'colorpicker'])],
-            [$field = 'map', Form::file($field)],
-        ];
+        $fields = $viewsMaker->fields;
         $object = $category;
 
         return view('admin.edit', compact('config', 'fields', 'object'));
@@ -125,7 +94,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $category->fill($request->all());
-        $this->uploadMap($request, $category);
+        $category->addMap($request);
         $category->save();
 
         alert()->success('<strong>' . $category->name . '</strong> a été modifiée avec succés.', 'C\'est tout bon !')
@@ -136,7 +105,6 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        \File::delete(public_path($category->map));
         $category->delete();
         return;
     }
@@ -159,21 +127,5 @@ class CategoryController extends Controller
             })
             ->make(true);
         return $out;
-    }
-
-    protected function uploadMap(CategoryRequest $request, Category $category)
-    {
-        if ($request->hasFile('map') && $request->file('map')->isValid()) {
-            $map = $request->file('map');
-            $destinationPath = Category::UPLOAD_PATH;
-            $extension = $map->getClientOriginalExtension();
-            $fileName = str_random() . '.' . $extension;
-            if ($request->file('map')->move($destinationPath, $fileName)) {
-                if (!empty($category->map)) {
-                    \File::delete(public_path($category->map));
-                }
-                $category->map = $destinationPath . $fileName;
-            };
-        }
     }
 }
