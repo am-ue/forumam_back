@@ -143,6 +143,7 @@ return [
         'company_id'            => 'Entreprise',
         'role'                  => 'Fonction',
 
+        'summary'         => 'Résumé',
         'website'         => 'Site internet',
         'figures'         => 'Chiffres clefs (implantation, effectifs, etc.)',
         'staffing'        => 'Mode de recrutement',
@@ -159,18 +160,18 @@ return [
         'public'          => 'Visible publiquement',
         'created_at'      => 'Créé le',
         'updated_at'      => 'Dernière mise à jour le',
-        'contact'         => 'Contact',
+        'contact_id'         => 'Contact',
 
         'color' => 'Couleur',
         'map'   => 'Plan',
 
         'price' => 'Prix',
-        'type' => 'Type',
+        'type'  => 'Type',
 
-        'youtube_url' => 'Lien Youtube',
-        'youtube_id' => 'Identifiant Youtube',
+        'youtube_url'   => 'Lien Youtube',
+        'youtube_id'    => 'Identifiant Youtube',
         'youtube_thumb' => 'Miniature Youtube',
-        'img' => 'Image'
+        'img'           => 'Image',
     ],
 
 ];

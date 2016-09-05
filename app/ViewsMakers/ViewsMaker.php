@@ -44,7 +44,7 @@ abstract class ViewsMaker
     }
     protected function checkboxField($field, $options = [], $value = null)
     {
-        return [$field, Form::checkbox($field, 1, $value, ['class' => 'form-control'] + $options)];
+        return [$field, Form::checkbox($field, 1, $value, ['rel' => 'switch'] + $options)];
     }
 
     protected function imageField($field, $options = [])
@@ -73,7 +73,7 @@ abstract class ViewsMaker
     protected function showBoolean($attribute)
     {
         $data = [
-            'bool' => $this->model->$attribute
+            'boolean' => $this->model->$attribute
         ];
 
         return [$attribute, view('admin.partials.showBoolean', $data)->render()];

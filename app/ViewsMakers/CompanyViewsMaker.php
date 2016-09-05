@@ -55,23 +55,23 @@ class CompanyViewsMaker extends ViewsMaker
 
         $this->fields = [
             $this->showText('name'),
-            $this->showRelationLink('contact', 'full_name'),
+            $this->showBoolean('active'),
+            $this->showBoolean('public'),
+            $this->showRelationLink('contact', 'full_name', 'Admin\UserController@show'),
+            $this->showRelationLink('category', 'name'),
             $this->showUrl('website'),
             $this->showText('summary'),
+            $this->showImage('logo'),
+            $this->showText('stand'),
             $this->showText('description'),
             $this->showText('figures'),
             $this->showText('staffing'),
             $this->showText('profiles'),
             $this->showText('more'),
-            $this->showImage('logo'),
-            $this->showText('stand'),
             $this->showText('billing_contact'),
             $this->showText('billing_address'),
             $this->showText('billing_delay'),
             $this->showText('billing_method'),
-            $this->showRelationLink('category', 'name'),
-            $this->showBoolean('active'),
-            $this->showBoolean('public'),
             $this->showDate('created_at'),
             $this->showDate('updated_at'),
         ];
@@ -82,7 +82,6 @@ class CompanyViewsMaker extends ViewsMaker
     public function edit(Company $company)
     {
         $this->model = $company;
-
 
         $this->headerActions = [
             $this->headerActionLinkButton(
@@ -96,29 +95,30 @@ class CompanyViewsMaker extends ViewsMaker
         ];
 
         Form::setModel($company);
+
         $this->fields = [
             $this->textField('name'),
+            $this->selectField('category_id', Category::pluck('name', 'id')),
             $this->textField('website'),
+            $this->imageField('logo'),
             $this->textField('summary'),
             $this->textareaField('description'),
             $this->textareaField('figures'),
             $this->textareaField('staffing'),
             $this->textareaField('profiles'),
             $this->textareaField('more'),
-            $this->imageField('logo'),
             $this->textareaField('billing_contact'),
             $this->textareaField('billing_address'),
             $this->textareaField('billing_delay'),
             $this->selectField('billing_method', Company::$billing_methods),
-            $this->selectField('category_id', Category::pluck('name', 'id')),
         ];
 
         if (auth()->user()->is_admin && $company->id != 1) {
-            $this->fields = array_merge($this->fields, [
+            $this->fields = array_merge([
                 $this->textField('stand'),
                 $this->checkboxField('active'),
                 $this->checkboxField('public'),
-            ]);
+            ], $this->fields);
         }
 
         return $this;
