@@ -31,6 +31,10 @@ class CompanyController extends Controller
             'Emplacement' => 'stand',
             'Categorie'   => 'category.name',
             'Contact'     => 'contact.full_name',
+            'Active'      => 'active',
+            'Publique'    => 'public',
+            'Création'    => 'created_at',
+            'Mise à jour' => 'updated_at',
 
         ];
         return view('admin.index', compact('config', 'columns'));
