@@ -64,9 +64,10 @@ class OptionController extends Controller
                     422
                 );
             }
-            OptionDetail::whereOptionId($option->id)->delete();
+            $option->save();
             $option->details()->saveMany($details);
         } else {
+            $option->save();
             $option->details()->save(new OptionDetail(['price' => $request->input('price')]));
         }
 
@@ -102,7 +103,7 @@ class OptionController extends Controller
 
     public function update(OptionRequest $request, Option $option)
     {
-        $option->update($request->all());
+        $option->fill($request->all());
         if ($option->type == 'select') {
             $details = [];
             foreach ($request->input('label') as $id => $label) {
@@ -121,6 +122,7 @@ class OptionController extends Controller
         } else {
             $option->details()->save(new OptionDetail(['price' => $request->input('price')]));
         }
+        $option->save();
 
         alert()->success('<strong>' . $option->name . '</strong> a été modifiée avec succés.', 'C\'est tout bon !')
             ->html()->autoclose(7000);

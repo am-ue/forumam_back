@@ -16,6 +16,10 @@ class OptionViewsMaker extends ViewsMaker
                 action('Admin\OptionController@create'),
                 "Ajouter une option"
             ),
+            $this->headerActionLinkButton(
+                action('Admin\OptionRelationController@index'),
+                "Gérer les relations"
+            ),
         ];
 
         return $this;

@@ -19,6 +19,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Option whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Option whereUpdatedAt($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionDetail[] $details
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $children
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $parents
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $childrenRelations
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $parentsRelations
  */
 class Option extends Model
 {
@@ -26,7 +30,7 @@ class Option extends Model
     public static $types = [
         'checkbox' => 'Case à cocher',
         'select' => 'Menu déroulant',
-        'int' => 'Champ quantité (entier)'
+        'int' => 'Champ quantité'
     ];
 
     public $fillable = ['name', 'type'];
@@ -36,13 +40,19 @@ class Option extends Model
         return $this->hasMany(OptionDetail::class);
     }
 
-    public function children()
+    public function childrenRelations()
     {
-        $this->belongsToMany(Option::class, 'option_relations', 'parent_id', 'child_id');
+        return $this->hasMany(OptionRelation::class, 'child_id');
     }
 
-    public function parent()
+    public function parentsRelations()
     {
-        $this->belongsToMany(Option::class, 'option_relations', 'child_id', 'parent_id');
+        return $this->hasMany(OptionRelation::class, 'parent_id');
+    }
+
+    public function delete()
+    {
+        OptionDetail::whereOptionId($this->id)->delete();
+        parent::delete();
     }
 }

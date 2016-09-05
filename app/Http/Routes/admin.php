@@ -19,8 +19,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('options/datatable', 'OptionController@datatable');
         Route::resource('options', 'OptionController');
 
-        /*Route::get('option-relations/datatable', 'OptionRelationController@datatable');
-        Route::resource('option-relations', 'OptionRelationController');*/
+        Route::get('relations/datatable', 'OptionRelationController@datatable');
+        Route::resource('relations', 'OptionRelationController');
 
         Route::get('posts/datatable', 'PostController@datatable');
         Route::resource('posts', 'PostController');

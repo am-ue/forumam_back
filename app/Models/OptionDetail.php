@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
 class OptionDetail extends Model
 {
     public $fillable = ['label', 'price'];
+    public $appends = ['name'];
 
     public function setPriceAttribute($value)
     {
@@ -33,5 +34,15 @@ class OptionDetail extends Model
     public function getPriceAttribute()
     {
         return $this->attributes['price'] / 100;
+    }
+
+    public function option()
+    {
+        return $this->belongsTo(Option::class);
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->option->name . ($this->label ? ' : ' . $this->label : '');
     }
 }

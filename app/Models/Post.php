@@ -28,6 +28,8 @@ use Illuminate\Http\Request;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read mixed $youtube_url
+ * @property-read mixed $youtube_thumb
  */
 class Post extends Model
 {

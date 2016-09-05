@@ -43,6 +43,12 @@ abstract class ViewsMaker
         return [$field, Form::text($field, $value, $options + ['class' => 'form-control'])];
     }
 
+    protected function numberField($field, $options = [], $value = null)
+    {
+        return [$field, Form::number($field, $value, $options + ['class' => 'form-control'])];
+    }
+
+
     protected function checkboxField($field, $options = [], $value = null)
     {
         return [$field, Form::checkbox($field, 1, $value, $options + ['class' => 'form-control'])];

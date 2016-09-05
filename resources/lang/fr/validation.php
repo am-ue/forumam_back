@@ -160,7 +160,7 @@ return [
         'public'          => 'Visible publiquement',
         'created_at'      => 'Créé le',
         'updated_at'      => 'Dernière mise à jour le',
-        'contact_id'         => 'Contact',
+        'contact_id'      => 'Contact',
 
         'color' => 'Couleur',
         'map'   => 'Plan',
@@ -172,6 +172,11 @@ return [
         'youtube_id'    => 'Identifiant Youtube',
         'youtube_thumb' => 'Miniature Youtube',
         'img'           => 'Image',
+
+        'parent_id'    => 'Parent',
+        'parent_value' => 'Quantité',
+        'child_id'     => 'Enfant',
+        'child_value'  => 'Quantité',
     ],
 
 ];
