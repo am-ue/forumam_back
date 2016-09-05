@@ -166,6 +166,11 @@ return [
 
         'price' => 'Prix',
         'type' => 'Type',
+
+        'youtube_url' => 'Lien Youtube',
+        'youtube_id' => 'Identifiant Youtube',
+        'youtube_thumb' => 'Miniature Youtube',
+        'img' => 'Image'
     ],
 
 ];

@@ -12,6 +12,7 @@
 */
 
 $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
+    $companies = \App\Models\Company::where('id', '!=', 1)->pluck('id');
     return [
         'first_name'     => $faker->firstName,
         'last_name'      => $faker->lastName,
@@ -20,7 +21,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'role'           => $faker->jobTitle,
         'password'       => bcrypt(str_random(10)),
         'remember_token' => str_random(10),
-        'company_id'     => \App\Models\Company::where('id', '!=', 1)->pluck('id')->random(),
+        'company_id'     => $companies->isEmpty() ? 0 : $companies->random(),
     ];
 });
 

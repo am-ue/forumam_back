@@ -38,6 +38,10 @@
                 'options' => [
                     'Les options',
                     'sliders'
+                ],
+                'posts' => [
+                    'Les actualités',
+                    'newspaper-o'
                 ]
             ]
             @endphp

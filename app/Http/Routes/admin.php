@@ -21,6 +21,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         /*Route::get('option-relations/datatable', 'OptionRelationController@datatable');
         Route::resource('option-relations', 'OptionRelationController');*/
+
+        Route::get('posts/datatable', 'PostController@datatable');
+        Route::resource('posts', 'PostController');
     });
 });
 

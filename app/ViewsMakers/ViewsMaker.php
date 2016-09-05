@@ -104,6 +104,11 @@ abstract class ViewsMaker
         return [$attribute, $this->model->$attribute];
     }
 
+    protected function showCustom($label, $custom)
+    {
+        return [$label, $custom];
+    }
+
     protected function showDate($attribute)
     {
         return [$attribute, $this->model->$attribute->toFormattedDateString()];

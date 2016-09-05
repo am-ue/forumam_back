@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 /**
  * App\Models\Post
@@ -30,9 +31,23 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Post extends Model
 {
+
+    const UPLOAD_PATH = 'img/uploads/posts/';
+    public static $types = ['article' => 'Article', 'video' => 'Vidéo Youtube'];
+    public $fillable = ['company_id', 'type', 'title', 'description'];
+
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function getYoutubeUrlAttribute()
+    {
+        return $this->youtube_id ? 'https://www.youtube.com/watch?v=' . $this->youtube_id : null;
+    }
+    public function getYoutubeThumbAttribute()
+    {
+        return $this->youtube_id ? 'http://img.youtube.com/vi/' . $this->youtube_id . '/hqdefault.jpg' : null;
     }
 
     public function jsonSerialize()
@@ -50,5 +65,32 @@ class Post extends Model
             'updated_at'  => $this->updated_at->toDateTimeString(),
             'company'     => $company ? $company->toMinArray() : null,
         ]);
+    }
+
+    public function saveImg(Request $request)
+    {
+        if ($request->file('img')->isValid()) {
+            $img = $request->file('img');
+            $destinationPath = self::UPLOAD_PATH;
+            $extension = $img->getClientOriginalExtension();
+            $fileName = str_random() . '.' . $extension;
+            if ($request->file('img')->move($destinationPath, $fileName)) {
+                $this->deleteImg();
+                $this->img = $destinationPath . $fileName;
+            };
+        }
+    }
+
+    public function deleteImg()
+    {
+        if (!empty($this->img)) {
+            \File::delete(public_path($this->img));
+        }
+    }
+
+    public function delete()
+    {
+        $this->deleteImg();
+        parent::delete();
     }
 }

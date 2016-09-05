@@ -75,7 +75,7 @@ class CanAccessTest extends TestCase
         \Route::get('/essai/{company}', ['middleware' => 'canAccess', function () {
             return 'ok';
         }]);
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->create(['company_id' => 134]);
         $this->be($user);
         $this->get('/essai/' . ($user->company_id));
         $this->assertCanAccess();

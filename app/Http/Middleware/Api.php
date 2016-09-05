@@ -17,7 +17,7 @@ class Api
      */
     public function handle($request, Closure $next)
     {
-        Company::addGlobalScope('showable', function(Builder $builder) {
+        Company::addGlobalScope('showable', function (Builder $builder) {
             $builder->showable();
         });
 
