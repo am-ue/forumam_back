@@ -40,11 +40,12 @@ abstract class ViewsMaker
 
     protected function textField($field, $options = [], $value = null)
     {
-        return [$field, Form::text($field, $value, ['class' => 'form-control'] + $options)];
+        return [$field, Form::text($field, $value, $options + ['class' => 'form-control'])];
     }
+
     protected function checkboxField($field, $options = [], $value = null)
     {
-        return [$field, Form::checkbox($field, 1, $value, ['rel' => 'switch'] + $options)];
+        return [$field, Form::checkbox($field, 1, $value, $options + ['class' => 'form-control'])];
     }
 
     protected function imageField($field, $options = [])
@@ -54,26 +55,26 @@ abstract class ViewsMaker
 
     protected function textareaField($field, $options = [], $value = null)
     {
-        return [$field, Form::textarea($field, $value, ['class' => 'form-control'] + $options)];
+        return [$field, Form::textarea($field, $value, $options + ['class' => 'form-control'])];
     }
 
     protected function selectField($field, $values, $options = [], $value = null)
     {
-        return [$field, Form::select($field, $values, $value, [
+        return [$field, Form::select($field, $values, $value, $options + [
                 'class' => 'form-control',
-                'rel' => 'select2'
-            ] + $options)];
+                'rel'   => 'select2',
+            ])];
     }
 
     protected function passwordField($field, $options = [])
     {
-        return [$field, Form::password($field, ['class' => 'form-control'] + $options)];
+        return [$field, Form::password($field, $options + ['class' => 'form-control'])];
     }
 
     protected function showBoolean($attribute)
     {
         $data = [
-            'boolean' => $this->model->$attribute
+            'boolean' => $this->model->$attribute,
         ];
 
         return [$attribute, view('admin.partials.showBoolean', $data)->render()];
@@ -86,14 +87,14 @@ abstract class ViewsMaker
 
     protected function showMailUrl($attribute)
     {
-        return [$attribute, link_to('mailto:'.$this->model->$attribute, $this->model->$attribute)];
+        return [$attribute, link_to('mailto:' . $this->model->$attribute, $this->model->$attribute)];
     }
 
     protected function showImage($attribute)
     {
         $data = [
             'src' => $this->model->$attribute,
-            'alt' => $attribute
+            'alt' => $attribute,
         ];
 
         return [$attribute, view('admin.partials.showImage', $data)->render()];
@@ -116,14 +117,14 @@ abstract class ViewsMaker
 
     protected function showRelationLink($relation, $relation_title_attribute, $action = null)
     {
-        $action = $action ?: 'Admin\\'.Str::studly($relation).'Controller@show';
+        $action = $action ?: 'Admin\\' . Str::studly($relation) . 'Controller@show';
         return [
-            $relation.'_id',
+            $relation . '_id',
             link_to_action(
                 $action,
                 $this->model->$relation->$relation_title_attribute,
                 $this->model->$relation->id
-            )
+            ),
         ];
     }
 

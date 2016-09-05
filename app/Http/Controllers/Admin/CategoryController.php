@@ -5,9 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\ViewsMakers\CategoryViewsMaker;
-use Carbon\Carbon;
-use Form;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Yajra\Datatables\Datatables;
 

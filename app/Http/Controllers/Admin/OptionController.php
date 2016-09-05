@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\OptionRequest;
 use App\Models\Option;
 use App\Models\OptionDetail;
+use App\Models\OptionRelation;
+use App\ViewsMakers\OptionViewsMaker;
 use Carbon\Carbon;
 use Form;
 use App\Http\Controllers\Controller;
@@ -13,25 +15,14 @@ use Yajra\Datatables\Datatables;
 class OptionController extends Controller
 {
 
-    public function index()
+    public function index(OptionViewsMaker $viewsMaker)
     {
-        $elements = '
-            <button class="btn btn-default btn-sm pull-right" data-toggle="modal" 
-                data-target="#modal" href="' . action('Admin\OptionController@create') . '">
-                    Ajouter une option
-            </button>
-            <a class="btn btn-default btn-sm pull-right" style="margin-right:5px" 
-                href="' . route('admin.option-relations.index') . '">
-                    Gérer les relations
-            </a>
-        ';
-
         $config = [
             'var'         => 'option',
             'vars'        => 'options',
             'description' => 'index',
             'ajax_url'    => action('Admin\OptionController@datatable'),
-            'elements'    => $elements,
+            'elements'    => $viewsMaker->index()->headerActions,
         ];
         $columns = [
             'Nom'  => 'name',
@@ -42,19 +33,13 @@ class OptionController extends Controller
     }
 
 
-    public function create()
+    public function create(OptionViewsMaker $viewsMaker)
     {
         $config = [
             'title'     => 'Ajouter une option',
             'store_url' => action('Admin\OptionController@store'),
         ];
-        $fields = [
-            [$field = 'name', Form::text($field, null, ['class' => 'form-control'])],
-            [$field = 'type', Form::select($field, ['' => ''] + Option::$types, null, [
-                'class' => 'form-control script-option',
-            ])],
-            [$field = 'price', '<div id="price" class="script-option">Merci de choisir un type.</div>'],
-        ];
+        $fields = $viewsMaker->create()->fields;
 
         return view('admin.create', compact('config', 'fields'));
     }
@@ -62,7 +47,7 @@ class OptionController extends Controller
 
     public function store(OptionRequest $request)
     {
-        $option = Option::create($request->all());
+        $option = new Option($request->all());
         if ($option->type == 'select') {
             $details = [];
             foreach ($request->input('label') as $id => $label) {
@@ -72,9 +57,12 @@ class OptionController extends Controller
                 }
             }
             if (count($details) < 2) {
-                return redirect()->back()
-                    ->withErrors(['price' => 'Merci de mettre au moins deux choix pour le menu, 
-                    ou de selectionner un autre type de champ']);
+                return response()->json(
+                    ['label[]' => [
+                        'Merci de mettre au moins deux choix pour le menu, ou de selectionner un autre type de champ'
+                    ]],
+                    422
+                );
             }
             OptionDetail::whereOptionId($option->id)->delete();
             $option->details()->saveMany($details);
@@ -93,52 +81,20 @@ class OptionController extends Controller
         return redirect()->action('Admin\OptionController@edit', $option->id);
     }
 
-    public function edit(Option $option)
+    public function edit(Option $option, OptionViewsMaker $viewsMaker)
     {
-        $headerActions = '
-            <a class="btn btn-default btn-sm pull-right" 
-                href="' . action('Admin\OptionController@show', $option->id) . '">
-                    Voir
-            </a>
-        ';
+        $viewsMaker = $viewsMaker->edit($option);
+
         $config = [
             'var'         => 'option',
             'vars'        => 'options',
             'description' => $option->name,
             'update_url'  => action('Admin\OptionController@update', $option->id),
             'cancel_url'  => action('Admin\OptionController@index'),
-            'elements'    => $headerActions,
+            'elements'    => $viewsMaker->headerActions,
         ];
-        Form::setModel($option);
 
-        $row_class = '';
-        if ($option->type == 'select') {
-            $row_class = 'row';
-            $inputs = '<div class="col-xs-12" style="margin-bottom: 5px;">
-                <button type="button" class="btn btn-xs btn-default script-option add_price">
-                    Ajouter une ligne (laisser vide pour supprimer)
-                </button>
-            </div>';
-            foreach ($option->details as $detail) {
-                $inputs .= "<div class='col-sm-8' style='margin-bottom: 5px;'>
-                    <input class='form-control' name='label[]' value='$detail->label' placeholder='Label' type='text'>
-                </div>
-                <div class='col-sm-4'>
-                    <input class='form-control' placeholder='Prix' value='$detail->price' 
-                           name='price[]' type='number' step='0.01'>
-                </div>";
-            }
-        } else {
-            $inputs = "<input class='form-control' name='price' value='$option->details->price'
- type='number' step='0.01'>";
-        }
-        $fields = [
-            [$field = 'name', Form::text($field, null, ['class' => 'form-control'])],
-            [$field = 'type', Form::select($field, ['' => ''] + Option::$types, null, [
-                'class' => 'form-control script-option',
-            ])],
-            [$field = 'price',"<div id='price' class='script-option $row_class'>$inputs</div>"],
-        ];
+        $fields = $viewsMaker->fields;
         $object = $option;
 
         return view('admin.edit', compact('config', 'fields', 'object'));
@@ -174,6 +130,11 @@ class OptionController extends Controller
 
     public function destroy(Option $option)
     {
+        if ($option->childrenRelations()->count() or $option->parentsRelations()->count()) {
+            alert()->error('Il reste des relations attachées à cette options,
+                        merci de les supprimer d\'abord', 'Attention')->persistent();
+            return redirect()->back();
+        }
         $option->delete();
         return;
     }
