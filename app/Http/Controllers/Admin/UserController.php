@@ -121,6 +121,13 @@ class UserController extends Controller
     {
         $users = User::with('company')->get();
         $out = Datatables::of($users)
+            ->editColumn('company.name', function (User $user) {
+                $company = $user->company;
+                return (string) link_to_action('Admin\CompanyController@show', $company->name, $company->id);
+            })
+            ->editColumn('email', function (User $user) {
+                return (string) link_to('mailto:'.$user->email, $user->email);
+            })
             ->addColumn('actions', function (User $user) {
                 $data['show_url'] = action('Admin\UserController@show', $user->id);
                 $data['edit_url'] = action('Admin\UserController@edit', $user->id);

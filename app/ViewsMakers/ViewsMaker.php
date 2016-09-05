@@ -42,6 +42,20 @@ abstract class ViewsMaker
     {
         return [$field, Form::text($field, $value, ['class' => 'form-control'] + $options)];
     }
+    protected function checkboxField($field, $options = [], $value = null)
+    {
+        return [$field, Form::checkbox($field, 1, $value, ['class' => 'form-control'] + $options)];
+    }
+
+    protected function imageField($field, $options = [])
+    {
+        return [$field, Form::file($field, $options)];
+    }
+
+    protected function textareaField($field, $options = [], $value = null)
+    {
+        return [$field, Form::textarea($field, $value, ['class' => 'form-control'] + $options)];
+    }
 
     protected function selectField($field, $values, $options = [], $value = null)
     {
