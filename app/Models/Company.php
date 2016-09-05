@@ -49,7 +49,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read \App\Models\Category $category
- * @property-read mixed $contact
+ * @property-read \App\Models\User $contact
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company showable()
  * @property string $summary
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Post[] $posts
@@ -88,7 +88,7 @@ class Company extends Model
         return $query->whereActive(1)->wherePublic(1);
     }
 
-    public function toArray()
+    public function jsonSerialize()
     {
         return array_filter([
             'id'          => $this->id,

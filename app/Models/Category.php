@@ -32,7 +32,7 @@ class Category extends Model
         return $this->hasMany(Company::class);
     }
 
-    public function toArray()
+    public function jsonSerialize()
     {
         return [
             'id' => $this->id,

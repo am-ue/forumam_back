@@ -35,7 +35,7 @@ class Post extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function toArray()
+    public function jsonSerialize()
     {
         /** @var Company $company */
         $company = $this->company()->get(['id', 'name', 'summary', 'logo'])->first();
