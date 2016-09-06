@@ -110,7 +110,7 @@ class CompanyViewsMaker extends ViewsMaker
             $this->textareaField('billing_contact'),
             $this->textareaField('billing_address'),
             $this->textareaField('billing_delay'),
-            $this->selectField('billing_method', Company::$billing_methods),
+            $this->selectField('billing_method', [] + Company::$billing_methods),
         ];
 
         if (auth()->user()->is_admin && $company->id != 1) {

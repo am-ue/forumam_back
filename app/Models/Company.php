@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Model;
+use Larapie\Contracts\DirectTransformableContract;
 
 /**
  * App\Models\Company
@@ -55,7 +56,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Post[] $posts
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereSummary($value)
  */
-class Company extends Model
+class Company extends Model implements DirectTransformableContract
 {
     const UPLOAD_PATH = 'img/uploads/companies/';
     public static $billing_methods = ['Chèque', 'Virement', 'CB'];
@@ -88,7 +89,7 @@ class Company extends Model
         return $query->whereActive(1)->wherePublic(1);
     }
 
-    public function jsonSerialize()
+    public function directTransform()
     {
         return array_filter([
             'id'          => $this->id,

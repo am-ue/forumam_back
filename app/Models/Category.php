@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Larapie\Contracts\DirectTransformableContract;
 
 /**
  * App\Models\Category
@@ -23,7 +24,7 @@ use Illuminate\Http\Request;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Category whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Category extends Model
+class Category extends Model implements DirectTransformableContract
 {
     const UPLOAD_PATH = 'img/uploads/categories/';
     protected $fillable = ['name', 'color', 'map'];
@@ -33,7 +34,7 @@ class Category extends Model
         return $this->hasMany(Company::class);
     }
 
-    public function jsonSerialize()
+    public function directTransform()
     {
         return [
             'id' => $this->id,

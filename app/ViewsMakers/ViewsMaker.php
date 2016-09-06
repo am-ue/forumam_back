@@ -51,7 +51,7 @@ abstract class ViewsMaker
 
     protected function checkboxField($field, $options = [], $value = null)
     {
-        return [$field, Form::checkbox($field, 1, $value, $options + ['class' => 'form-control'])];
+        return [$field, Form::checkbox($field, 1, $value, $options + ['rel' => 'switch'])];
     }
 
     protected function imageField($field, $options = [])

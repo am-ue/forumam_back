@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Larapie\Contracts\DirectTransformableContract;
 
 /**
  * App\Models\Post
@@ -31,7 +32,7 @@ use Illuminate\Http\Request;
  * @property-read mixed $youtube_url
  * @property-read mixed $youtube_thumb
  */
-class Post extends Model
+class Post extends Model implements DirectTransformableContract
 {
 
     const UPLOAD_PATH = 'img/uploads/posts/';
@@ -52,7 +53,7 @@ class Post extends Model
         return $this->youtube_id ? 'http://img.youtube.com/vi/' . $this->youtube_id . '/hqdefault.jpg' : null;
     }
 
-    public function jsonSerialize()
+    public function directTransform()
     {
         /** @var Company $company */
         $company = $this->company()->get(['id', 'name', 'summary', 'logo'])->first();
