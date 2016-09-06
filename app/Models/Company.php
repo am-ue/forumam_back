@@ -53,7 +53,7 @@ use Larapie\Contracts\DirectTransformableContract;
  * @property-read \App\Models\User $contact
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company showable()
  * @property string $summary
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Post[] $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereSummary($value)
  */
 class Company extends Model implements DirectTransformableContract
@@ -91,6 +91,9 @@ class Company extends Model implements DirectTransformableContract
 
     public function directTransform()
     {
+        $posts = $this->posts ? $this->posts->map(function (Post $post) {
+            return $post->directTransform();
+        }) : null;
         return array_filter([
             'id'          => $this->id,
             'name'        => $this->name,
@@ -103,8 +106,8 @@ class Company extends Model implements DirectTransformableContract
             'profiles'    => $this->profiles,
             'more'        => $this->more,
             'stand'       => $this->stand,
-            'category'    => $this->category ? $this->category->toArray() : null,
-            'posts'       => $this->posts ? $this->posts->toArray() : null,
+            'category'    => $this->category ? $this->category->directTransform() : null,
+            'posts'       => $posts,
             'created_at'  => $this->created_at->toDateTimeString(),
             'updated_at'  => $this->updated_at->toDateTimeString(),
         ]);
