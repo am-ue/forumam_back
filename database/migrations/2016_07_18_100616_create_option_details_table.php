@@ -14,7 +14,7 @@ class CreateOptionDetailsTable extends Migration
     {
         Schema::create('option_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('option_id');
+            $table->integer('option_id')->unsigned();
             $table->string('label');
             $table->integer('price');
             $table->timestamps();

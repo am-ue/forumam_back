@@ -14,9 +14,9 @@ class CreateOptionRelationsTable extends Migration
     {
         Schema::create('option_relations', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('parent_id');
+            $table->integer('parent_id')->unsigned();
             $table->string('parent_value');
-            $table->integer('child_id');
+            $table->integer('child_id')->unsigned();
             $table->string('child_value');
             $table->timestamps();
         });

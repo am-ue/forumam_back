@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $parents
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $childrenRelations
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $parentsRelations
+ * @property integer $order
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Option whereOrder($value)
  */
 class Option extends Model
 {
@@ -33,7 +35,7 @@ class Option extends Model
         'int' => 'Champ quantité'
     ];
 
-    public $fillable = ['name', 'type'];
+    public $fillable = ['name', 'type', 'order'];
 
     public function details()
     {
@@ -52,6 +54,7 @@ class Option extends Model
 
     public function delete()
     {
+        self::where('order', '>', $this->order)->decrement('order');
         OptionDetail::whereOptionId($this->id)->delete();
         parent::delete();
     }

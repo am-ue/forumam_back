@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionRelation whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read mixed $name
+ * @property string $value
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionRelation whereValue($value)
  */
 class OptionRelation extends Model
 {

@@ -31,23 +31,26 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"/>
-
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.12/r-2.1.0/rr-1.1.2/datatables.min.css"/>
 @endpush
 
 @push('scripts')
-<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/r-2.1.0/rr-1.1.2/datatables.min.js"></script>
 <script>
     $(function () {
-        $("#index").DataTable({
+        var datatable = $("#index").DataTable({
+            @if(isset($config['reorder_url']))
+                rowReorder: {
+                    update: false,
+                    dataSrc: 'order'
+                },
+            @endif
             processing: true,
             serverSide: true,
             ajax: "{{ $config['ajax_url'] }}",
             columns: [
                 @foreach( $columns as $label => $value )
-                        {data: '{{$value}}', name: '{{$value}}'},
+                    {data: '{{$value}}', name: '{{$value}}'},
                 @endforeach
                 {data: 'actions', name: 'actions'}
             ],
@@ -91,6 +94,26 @@
             }
 
         });
+        @if(isset($config['reorder_url']))
+            datatable.on('row-reorder', function ( e, diff ) {
+                $.ajax({
+                    url: "{{ $config['reorder_url'] }}",
+                    type: 'POST',
+                    data: JSON.stringify(diff),
+                    headers: {
+                        'X-CSRF-TOKEN': '{{csrf_token()}}',
+                        'content-type': 'application/json'
+                    },
+                    success: function (data) {
+                        datatable.ajax.reload(null, false);
+                    },
+                    error: function (data) {
+                        alert('Problème ! merci de contacter l\'admin !');
+                    }
+                });
+            });
+        @endif
     });
+
 </script>
 @endpush

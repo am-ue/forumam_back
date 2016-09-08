@@ -27,14 +27,12 @@ class CompanyController extends Controller
             'elements'    => $viewsMaker->index()->headerActions,
         ];
         $columns = [
-            'Nom'         => 'name',
-            'Emplacement' => 'stand',
-            'Categorie'   => 'category.name',
-            'Contact'     => 'contact.full_name',
-            'Active'      => 'active',
-            'Publique'    => 'public',
-            'Création'    => 'created_at',
-            'Mise à jour' => 'updated_at',
+            'Nom'       => 'name',
+            'Stand'     => 'stand',
+            'Categorie' => 'category.name',
+            'Contact'   => 'contact.full_name',
+            'Etat'      => 'state',
+            'MàJ'       => 'updated_at',
 
         ];
         return view('admin.index', compact('config', 'columns'));
@@ -157,17 +155,22 @@ class CompanyController extends Controller
         return;
     }
 
-    public function datatable()
+    public function datatable(CompanyViewsMaker $viewsMaker)
     {
         $companies = Company::with('category')->get();
         $out = Datatables::of($companies)
             ->editColumn('category.name', function (Company $company) {
                 $category = $company->category;
-                return (string) link_to_action('Admin\CategoryController@show', $category->name, $category->id);
+                return (string)link_to_action('Admin\CategoryController@show', $category->name, $category->id);
             })
             ->editColumn('contact.full_name', function (Company $company) {
                 $contact = $company->contact;
-                return (string) link_to_action('Admin\UserController@show', $contact->full_name, $contact->id);
+                return (string)link_to_action('Admin\UserController@show', $contact->full_name, $contact->id);
+            })
+            ->editColumn('state', function (Company $company) use ($viewsMaker) {
+                $active = $viewsMaker->badgeHelper($company->active, 'Act.', 'Inact.');
+                $public = $viewsMaker->badgeHelper($company->public, 'Pub.', 'Masq.');
+                return $active . ' ' . $public;
             })
             ->addColumn('actions', function (Company $company) {
                 $data['show_url'] = action('Admin\CompanyController@show', $company->id);

@@ -11,19 +11,19 @@ return [
         'categories' => [
             'model' => \App\Models\Category::class,
             'router_options' => [
-                'only' => ['index', 'show'],
+                'only' => ['index'],
             ],
         ],
         'companies' => [
             'model' => \App\Models\Company::class,
             'router_options' => [
-                'only' => ['index', 'show'],
+                'only' => ['index'],
             ],
         ],
         'posts' => [
             'model' => \App\Models\Post::class,
             'router_options' => [
-                'only' => ['index', 'show'],
+                'only' => ['index'],
             ],
         ],
     ],

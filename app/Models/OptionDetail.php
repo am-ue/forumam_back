@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionDetail whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionDetail whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Option $option
+ * @property-read mixed $name
  */
 class OptionDetail extends Model
 {

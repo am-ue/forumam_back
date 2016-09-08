@@ -10,6 +10,7 @@ use App\ViewsMakers\OptionViewsMaker;
 use Carbon\Carbon;
 use Form;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 
 class OptionController extends Controller
@@ -22,9 +23,11 @@ class OptionController extends Controller
             'vars'        => 'options',
             'description' => 'index',
             'ajax_url'    => action('Admin\OptionController@datatable'),
+            'reorder_url'    => action('Admin\OptionController@reorder'),
             'elements'    => $viewsMaker->index()->headerActions,
         ];
         $columns = [
+            'Classement' => 'order',
             'Nom'  => 'name',
             'Type' => 'type',
             'Prix' => 'price',
@@ -48,6 +51,7 @@ class OptionController extends Controller
     public function store(OptionRequest $request)
     {
         $option = new Option($request->all());
+        $option->order = Option::count() + 1;
         if ($option->type == 'select') {
             $details = [];
             foreach ($request->input('label') as $id => $label) {
@@ -120,6 +124,7 @@ class OptionController extends Controller
             OptionDetail::whereOptionId($option->id)->delete();
             $option->details()->saveMany($details);
         } else {
+            OptionDetail::whereOptionId($option->id)->delete();
             $option->details()->save(new OptionDetail(['price' => $request->input('price')]));
         }
         $option->save();
@@ -127,7 +132,7 @@ class OptionController extends Controller
         alert()->success('<strong>' . $option->name . '</strong> a été modifiée avec succés.', 'C\'est tout bon !')
             ->html()->autoclose(7000);
 
-        return redirect()->action('Admin\OptionController@show', $option->id);
+        return redirect()->action('Admin\OptionController@index');
     }
 
     public function destroy(Option $option)
@@ -138,6 +143,17 @@ class OptionController extends Controller
             return redirect()->back();
         }
         $option->delete();
+        return;
+    }
+
+    public function reorder(Request $request)
+    {
+        $changes = array_pluck($request->all(), 'newData', 'oldData');
+
+        $options_to_change = Option::whereIn('order', array_keys($changes))->get();
+        foreach ($options_to_change as $option) {
+            $option->update(['order' => $changes[$option->order]]);
+        };
         return;
     }
 

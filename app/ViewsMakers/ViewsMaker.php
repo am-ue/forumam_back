@@ -79,11 +79,7 @@ abstract class ViewsMaker
 
     protected function showBoolean($attribute)
     {
-        $data = [
-            'boolean' => $this->model->$attribute,
-        ];
-
-        return [$attribute, view('admin.partials.showBoolean', $data)->render()];
+        return [$attribute, $this->badgeHelper($this->model->$attribute, 'Oui', 'Non')];
     }
 
     protected function showUrl($attribute)
@@ -132,6 +128,11 @@ abstract class ViewsMaker
                 $this->model->$relation->id
             ),
         ];
+    }
+
+    public function badgeHelper($boolean, $true, $false)
+    {
+        return view('admin.partials.showBoolean', compact('boolean', 'true', 'false'))->render();
     }
 
     public function __get($key)

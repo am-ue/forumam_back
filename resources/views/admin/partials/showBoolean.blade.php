@@ -1,5 +1,5 @@
 @if($boolean)
-    <div class="label label-success">Oui</div>
+    <div class="label label-success">{{ $true }}</div>
 @else
-    <div class='label label-danger'>Non</div>
+    <div class='label label-danger'>{{ $false }}</div>
 @endif

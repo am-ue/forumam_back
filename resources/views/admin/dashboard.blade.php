@@ -1,13 +1,13 @@
 @extends('admin.layouts.app')
 
 @section('html.head.title', 'Dashboard')
-@section('contentheader.title', 'Plop')
-@section('contentheader.description') Mouaha @endsection
+@section('contentheader.title', 'A venir')
+@section('contentheader.description') Page en cours de construction @endsection
 
-@section('contentheader.section') Section @endsection
+{{--@section('contentheader.section') Section @endsection
 @section('contentheader.section.url') http://essai @endsection
-@section('contentheader.section.fa') fa-facebook @endsection
-@section('contentheader.subsection') SubSection @endsection
+@section('contentheader.section.fa') fa-home @endsection
+@section('contentheader.subsection') SubSection @endsection--}}
 
 
 @section('main-content')
@@ -66,7 +66,7 @@
             </div>
         </div><!-- ./col -->
     </div><!-- /.row -->
-    <!-- Main row -->
+    {{--<!-- Main row -->
     <div class="row">
         <!-- Left col -->
         <section class="col-lg-7 connectedSortable">
@@ -443,7 +443,7 @@
             </div><!-- /.box -->
 
         </section><!-- right col -->
-    </div><!-- /.row (main row) -->
+    </div><!-- /.row (main row) -->--}}
 @endsection
 
 @push('styles')
