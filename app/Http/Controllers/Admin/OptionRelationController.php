@@ -21,9 +21,9 @@ class OptionRelationController extends Controller
             'elements'    => $viewsMaker->index()->headerActions,
         ];
         $columns = [
-            'Parent'  => 'parent.name',
+            'Parent'  => 'parent.label_with_all',
             'Qté (condition)' => 'parent_value',
-            'Enfant' => 'child.name',
+            'Enfant' => 'child.label_with_all',
             'Qté (résultat)' => 'child_value',
         ];
         return view('admin.index', compact('config', 'columns'));
@@ -88,7 +88,7 @@ class OptionRelationController extends Controller
             'C\'est tout bon !'
         )->html()->autoclose(7000);
 
-        return redirect()->action('Admin\OptionRelationController@edit', $relation->id);
+        return redirect()->action('Admin\OptionRelationController@index');
     }
 
     public function destroy(OptionRelation $relation)

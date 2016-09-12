@@ -125,7 +125,7 @@ class CompanyController extends Controller
             };
         }
 
-        if (Auth::user()->is_admin) {
+        if (Auth::user()->isAdmin()) {
             if ($request->has('stand')) {
                 $company->stand = $request->input('stand');
             }
@@ -138,7 +138,7 @@ class CompanyController extends Controller
         }
 
         $company->save();
-        if (Auth::user()->is_admin) {
+        if (Auth::user()->isAdmin()) {
             alert()->success('<strong>' . $company->name . '</strong> a été modifiée avec succés.', 'C\'est tout bon !')
                 ->html()->autoclose(7000);
         } else {

@@ -44,12 +44,12 @@ class Option extends Model
 
     public function childrenRelations()
     {
-        return $this->hasMany(OptionRelation::class, 'child_id');
+        return $this->hasManyThrough(OptionRelation::class, OptionDetail::class, 'option_id', 'child_id');
     }
 
     public function parentsRelations()
     {
-        return $this->hasMany(OptionRelation::class, 'parent_id');
+        return $this->hasManyThrough(OptionRelation::class, OptionDetail::class, 'option_id', 'parent_id');
     }
 
     public function delete()

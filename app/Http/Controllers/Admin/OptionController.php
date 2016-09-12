@@ -107,6 +107,12 @@ class OptionController extends Controller
 
     public function update(OptionRequest $request, Option $option)
     {
+        if ($option->childrenRelations()->count() or $option->parentsRelations()->count()) {
+            alert()->error('Il reste des relations attachées à cette option,
+                        merci de les supprimer avant de la modifier.', 'Attention')->persistent();
+            return redirect()->action('Admin\OptionRelationController@index');
+        };
+
         $option->fill($request->all());
         if ($option->type == 'select') {
             $details = [];
@@ -138,12 +144,14 @@ class OptionController extends Controller
     public function destroy(Option $option)
     {
         if ($option->childrenRelations()->count() or $option->parentsRelations()->count()) {
-            alert()->error('Il reste des relations attachées à cette options,
-                        merci de les supprimer d\'abord', 'Attention')->persistent();
-            return redirect()->back();
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Il reste des relations attachées à cette option,
+                        merci de les supprimer d\'abord.',
+                'title'=> 'Attention'
+            ], 400);
         }
-        $option->delete();
-        return;
+        return $option->delete();
     }
 
     public function reorder(Request $request)

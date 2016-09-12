@@ -50,8 +50,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapAdminRoutes(Router $router)
     {
+        $domain = config('admin.subdomain') ?
+            config('admin.subdomain').'.'.config('app.domain') :
+            config('app.domain');
         $router->group([
-            'domain'     => config('admin.subdomain').'.'.config('app.domain'),
+            'domain'     => $domain,
             'prefix' => config('admin.path'),
             'as'         => 'admin.',
             'namespace'  => 'App\Http\Controllers\Admin',

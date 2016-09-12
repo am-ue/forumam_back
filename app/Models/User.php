@@ -20,7 +20,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read mixed $full_name
- * @property-read mixed $is_admin
  * @property-read \App\Models\Company $company
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereFirstName($value)
@@ -72,7 +71,7 @@ class User extends Authenticatable
         return $this->first_name . ' ' . $this->last_name;
     }
 
-    public function getIsAdminAttribute()
+    public function isAdmin()
     {
         return $this->company_id == 1;
     }

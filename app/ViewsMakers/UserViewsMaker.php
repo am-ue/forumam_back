@@ -81,7 +81,7 @@ class UserViewsMaker extends ViewsMaker
         ];
 
         Form::setModel($user);
-        $company_field = auth()->user()->is_admin ?
+        $company_field = auth()->user()->isAdmin() ?
             $this->selectField('company_id', Company::pluck('name', 'id')) :
             $this->textField('company_name', ['disabled'], $user->company->name);
 

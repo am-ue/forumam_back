@@ -21,12 +21,16 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionDetail whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read \App\Models\Option $option
- * @property-read mixed $name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $childrenRelations
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $parentsRelations
+ * @property-read string $label_with_option
+ * @property-read string $label_with_price
+ * @property-read string $label_with_all
  */
 class OptionDetail extends Model
 {
     public $fillable = ['label', 'price'];
-    public $appends = ['name'];
+    public $appends = ['label_with_option', 'label_with_price', 'label_with_all'];
 
     public function setPriceAttribute($value)
     {
@@ -43,8 +47,28 @@ class OptionDetail extends Model
         return $this->belongsTo(Option::class);
     }
 
-    public function getNameAttribute()
+    public function parentsRelations()
+    {
+        return $this->hasMany(OptionRelation::class, 'child_id');
+    }
+
+    public function childrenRelations()
+    {
+        return $this->hasMany(OptionRelation::class, 'parent_id');
+    }
+
+    public function getLabelWithOptionAttribute()
     {
         return $this->option->name . ($this->label ? ' : ' . $this->label : '');
+    }
+
+    public function getLabelWithPriceAttribute()
+    {
+        return $this->label . ' [ ' . $this->price . ' € ]';
+    }
+
+    public function getLabelWithAllAttribute()
+    {
+        return  $this->option->name . ($this->label ? ' : ' . $this->label : '') . ' [ ' . $this->price . ' € ]';
     }
 }

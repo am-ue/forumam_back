@@ -122,4 +122,11 @@ class Company extends Model implements DirectTransformableContract
             'summary'  => $this->summary,
         ];
     }
+
+    public function delete()
+    {
+        User::whereCompanyId($this->id)->delete();
+        parent::delete();
+    }
+
 }

@@ -19,7 +19,7 @@ class CanAccess
      */
     public function handle($request, Closure $next)
     {
-        $isAuthorized = Auth::user()->is_admin
+        $isAuthorized = Auth::user()->isAdmin()
             || $this->isRequestedEqualsCurrentUser()
             || $this->isRequestedEqualsCurrentCompany()
         ;

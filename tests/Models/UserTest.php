@@ -53,9 +53,9 @@ class UserTest extends TestCase
     public function testisAdmin()
     {
         $user = factory(User::class)->create(['company_id' => 1]);
-        $this->assertTrue($user->is_admin);
+        $this->assertTrue($user->isAdmin());
 
         $user->company_id = 2;
-        $this->assertFalse($user->is_admin);
+        $this->assertFalse($user->isAdmin());
     }
 }

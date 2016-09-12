@@ -113,7 +113,7 @@ class CompanyViewsMaker extends ViewsMaker
             $this->selectField('billing_method', [] + Company::$billing_methods),
         ];
 
-        if (auth()->user()->is_admin && $company->id != 1) {
+        if (auth()->user()->isAdmin() && $company->id != 1) {
             $this->fields = array_merge([
                 $this->textField('stand'),
                 $this->checkboxField('active'),

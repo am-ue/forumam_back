@@ -29,7 +29,7 @@ class OptionRelationViewsMaker extends ViewsMaker
 
     public function create()
     {
-        $options = OptionDetail::with('option')->get()->pluck('name', 'id');
+        $options = OptionDetail::with('option')->get()->pluck('label_with_option', 'id');
 
         $this->fields = [
             $this->selectField('parent_id', $options),
@@ -55,7 +55,7 @@ class OptionRelationViewsMaker extends ViewsMaker
 
         Form::setModel($relation);
 
-        $options = OptionDetail::with('option')->get()->pluck('name', 'id');
+        $options = OptionDetail::with('option')->get()->pluck('label_with_option', 'id');
         $this->fields = [
             $this->selectField('parent_id', $options),
             $this->numberField('parent_value'),

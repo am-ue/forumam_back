@@ -30,7 +30,18 @@
                 $("#index").DataTable().ajax.reload(null, false);
             })
             .error(function (data) {
-                swal("Oups !", "Un problème est survenu.", "error");
+                if (data.status == 400) {
+                    var res = data.responseJSON;
+                    swal({
+                        title: res.title,
+                        text: res.message,
+                        type: res.type,
+                        confirmButtonText: "OK"
+                    });
+                }
+                else {
+                    swal("Oups !", "Un problème est survenu, merci de contacter un admin.", "error");
+                }
             });
         });
     });
