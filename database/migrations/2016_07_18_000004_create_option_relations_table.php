@@ -19,6 +19,9 @@ class CreateOptionRelationsTable extends Migration
             $table->integer('child_id')->unsigned();
             $table->string('child_value');
             $table->timestamps();
+
+            $table->foreign('parent_id')->references('id')->on('option_details')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('child_id')->references('id')->on('option_details')->onUpdate('restrict')->onDelete('restrict');
         });
     }
 

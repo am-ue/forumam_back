@@ -28,10 +28,12 @@ class CreateCompaniesTable extends Migration
             $table->text('billing_address');
             $table->string('billing_delay');
             $table->string('billing_method');
-            $table->integer('category_id');
+            $table->integer('category_id')->unsigned();
             $table->boolean('active')->default(0);
             $table->boolean('public')->default(0);
             $table->timestamps();
+
+            $table->foreign('category_id')->references('id')->on('categories')->onUpdate('restrict')->onDelete('restrict');
         });
     }
 

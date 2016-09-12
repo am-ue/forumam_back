@@ -33,6 +33,5 @@ class PopulateCategories extends Migration
      */
     public function down()
     {
-        \App\Models\Category::where('id', '>=', count($this->categories))->delete();
     }
 }

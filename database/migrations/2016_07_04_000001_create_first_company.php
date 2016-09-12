@@ -43,6 +43,5 @@ class CreateFirstCompany extends Migration
      */
     public function down()
     {
-        \App\Models\Company::first()->delete();
     }
 }

@@ -18,6 +18,8 @@ class CreateOptionDetailsTable extends Migration
             $table->string('label');
             $table->integer('price');
             $table->timestamps();
+
+            $table->foreign('option_id')->references('id')->on('options')->onUpdate('restrict')->onDelete('cascade');
         });
     }
 

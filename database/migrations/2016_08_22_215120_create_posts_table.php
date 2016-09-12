@@ -21,6 +21,8 @@ class CreatePostsTable extends Migration
             $table->string('youtube_id')->nullable();
             $table->string('img')->nullable();
             $table->timestamps();
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('restrict');
         });
     }
 

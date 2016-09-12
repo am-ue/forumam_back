@@ -31,6 +31,5 @@ class CreateFirstAdmin extends Migration
      */
     public function down()
     {
-        User::destroy(1);
     }
 }
