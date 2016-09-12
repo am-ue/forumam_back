@@ -25,6 +25,12 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('posts/datatable', 'PostController@datatable');
         Route::resource('posts', 'PostController');
+
+        Route::get('companies/{company}/orders', 'OrderController@index')->name('orders.index');
+        Route::get('companies/{company}/orders/edit', 'OrderController@edit')->name('orders.edit');
+        Route::post('companies/{company}/orders', 'OrderController@store');
+        Route::get('companies/{company}/orders/datatable', 'OrderController@datatable');
+
     });
 });
 

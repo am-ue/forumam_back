@@ -42,6 +42,11 @@ class Option extends Model
         return $this->hasMany(OptionDetail::class);
     }
 
+    public function order()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function childrenRelations()
     {
         return $this->hasManyThrough(OptionRelation::class, OptionDetail::class, 'option_id', 'child_id');

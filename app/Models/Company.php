@@ -55,6 +55,7 @@ use Larapie\Contracts\DirectTransformableContract;
  * @property string $summary
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereSummary($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  */
 class Company extends Model implements DirectTransformableContract
 {
@@ -81,6 +82,11 @@ class Company extends Model implements DirectTransformableContract
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 
     public function scopeShowable($query)
