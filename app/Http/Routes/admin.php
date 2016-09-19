@@ -47,8 +47,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('companies/{company}/badges/edit', 'BadgeController@edit')->name('badges.edit');
         Route::post('companies/{company}/badges', 'BadgeController@store');
         Route::get('companies/{company}/badges/datatable', 'BadgeController@datatable');
-
-
     });
 });
 
