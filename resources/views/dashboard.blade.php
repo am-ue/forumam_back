@@ -1,91 +1,65 @@
-@extends("admin.layouts.app")
+@extends('admin.layouts.app')
 
-@section('html.head.title', 'Ma commande')
-@section('contentheader.title', 'Ma commande')
-@section('contentheader.description', 'Le résumé')
+@section('html.head.title', 'Dashboard')
+@section('contentheader.title', 'Forum Arts et Métiers')
+@section('contentheader.description', 'Espace d\'administration')
 
-@section('contentheader.elements', $config['elements'])
-
-@section("main-content")
+@section('main-content')
+    <!-- Small boxes (Stat box) -->
     <div class="row">
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>{{\App\Models\Order::totalPrice($company_id) ?: '0'}}</h3>
-                    <p>Montant total</p>
+                    <h3>{{ \App\Models\Company::count() }}</h3>
+                    <p>Entreprises (dont {{App\Models\Company::showable()->count()}} publiques)</p>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-euro"></i>
+                    <i class="fa fa-building"></i>
                 </div>
-                <a href="#" class="small-box-footer">Voir ma facture <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div><!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-green">
-                <div class="inner">
-                    @php($people_count = \App\Models\Order::whereCompanyId($company_id)->whereOptionId(2)->sum('value'))
-                    <h3>{{ $people_count }}</h3>
-                    <p>Personnes présentes</p>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-user"></i>
-                </div>
-                <a href={{ action('Admin\OrderController@edit', $company_id) }} class="small-box-footer">Editer la commande <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div><!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-orange">
-                <div class="inner">
-                    <h3>{{ \App\Models\Badge::whereCompanyId($company_id)->count() }}/{{ $people_count }}</h3>
-                    <p>Badges édités</p>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-ticket"></i>
-                </div>
-                <a href={{ action('Admin\BadgeController@edit', $company_id) }} class="small-box-footer">Editer les badges <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="{{action('Admin\DownloadController@companies')}}" class="small-box-footer">Exporter <i class="fa fa-arrow-circle-down"></i></a>
             </div>
         </div><!-- ./col -->
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
             <div class="small-box bg-red">
                 <div class="inner">
-                    <h3>{{ \App\Models\Company::find($company_id)->completePercentage() }}</h3>
-                    <p>Remplissage profile</p>
+                    <h3>{{ \App\Models\Order::count() }}</h3>
+                    <p>Produits commandés</p>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-percent"></i>
+                    <i class="fa fa-shopping-cart"></i>
                 </div>
-                @if(\App\Models\Company::find($company_id)->public)
-                    <a href="{{ action('Admin\CompanyController@edit', $company_id) }}" class="small-box-footer" style="width: 49.6%;display: inline-block;">Remplir mes infos <i class="fa fa-arrow-circle-right"></i></a>
-                    <a href="{{ config('app.url') }}/#/exposants/{{ $company_id }}" class="small-box-footer" style ="width: 49.6%;display: inline-block;">Voir ma fiche <i class="fa fa-arrow-circle-right"></i></a>
-                @else
-                    <a href="{{ action('Admin\CompanyController@edit', $company_id) }}" class="small-box-footer">Remplir mes infos <i class="fa fa-arrow-circle-right"></i></a>
-                @endif
+                <a href="{{action('Admin\DownloadController@products')}}" class="small-box-footer">Exporter <i class="fa fa-arrow-circle-down"></i></a>
             </div>
         </div><!-- ./col -->
-    </div>
-    <div class="box">
-        <!--<div class="box-header"></div>-->
-        <div class="box-body">
-            <table id="index" class="table table-bordered table-striped table-hover">
-                <thead>
-                <tr>
-                    @foreach( $columns as $label => $value )
-                        <th>{{$label }}</th>
-                    @endforeach
-                </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>{{ \App\Models\Badge::count() }}</h3>
+                    <p>Badges</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-ticket"></i>
+                </div>
+                <a href="{{action('Admin\DownloadController@badges')}}" class="small-box-footer">Exporter <i class="fa fa-arrow-circle-down"></i></a>
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>{{ \App\Models\Order::totalPrice() }}</h3>
+                    <p>Montant total</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-euro"></i>
+                </div>
+                <a href="{{action('Admin\DownloadController@results')}}" class="small-box-footer">Exporter <i class="fa fa-arrow-circle-down"></i></a>
+            </div>
+        </div><!-- ./col -->
+    </div><!-- /.row -->
 @endsection
 
 @push('styles')
@@ -94,15 +68,15 @@
 
 @push('scripts')
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/r-2.1.0/rr-1.1.2/datatables.min.js"></script>
-<script>
+{{--<script>
     $(function () {
         $("#index").DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ $config['ajax_url'] }}",
             columns: [
-                @foreach( $columns as $label => $value )
-                    {data: '{{$value}}', name: '{{$value}}'},
+                    @foreach( $columns as $label => $value )
+                {data: '{{$value}}', name: '{{$value}}'},
                 @endforeach
             ],
             language: {
@@ -147,5 +121,5 @@
         });
     });
 
-</script>
+</script>--}}
 @endpush

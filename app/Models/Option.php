@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $parentsRelations
  * @property integer $order
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Option whereOrder($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  */
 class Option extends Model
 {
@@ -42,7 +43,7 @@ class Option extends Model
         return $this->hasMany(OptionDetail::class);
     }
 
-    public function order()
+    public function orders()
     {
         return $this->hasMany(Order::class);
     }

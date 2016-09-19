@@ -56,6 +56,7 @@ use Larapie\Contracts\DirectTransformableContract;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereSummary($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Badge[] $badges
  */
 class Company extends Model implements DirectTransformableContract
 {
@@ -77,6 +78,11 @@ class Company extends Model implements DirectTransformableContract
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function badges()
+    {
+        return $this->hasMany(Badge::class);
     }
 
     public function posts()
@@ -133,6 +139,30 @@ class Company extends Model implements DirectTransformableContract
     {
         User::whereCompanyId($this->id)->delete();
         parent::delete();
+    }
+
+    public function completePercentage()
+    {
+        $attributes = [
+            'name',
+            'website',
+            'description',
+            'figures',
+            'staffing',
+            'profiles',
+            'logo',
+            'billing_contact',
+            'billing_address',
+            'billing_delay',
+            'billing_method',
+        ];
+        $percentage = 0;
+        foreach ( $attributes as $attribute) {
+            if (!empty($this->$attribute)) {
+                $percentage += (100 / count($attributes));
+            }
+        }
+        return round($percentage);
     }
 
 }
