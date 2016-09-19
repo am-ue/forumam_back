@@ -144,12 +144,12 @@ class UserController extends Controller
 
     public function logAs(User $user = null)
     {
-        if($user->id) {
+        if ($user->id) {
             Session::put('orig_user', auth()->id());
             auth()->login($user);
         } else {
             $id = Session::pull('orig_user');
-            $orig_user = User::find( $id );
+            $orig_user = User::find($id);
             auth()->login($orig_user);
         }
 

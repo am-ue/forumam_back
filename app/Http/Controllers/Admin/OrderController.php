@@ -67,8 +67,7 @@ class OrderController extends Controller
                 /** @var OptionDetail $detail */
                 $detail = $option->details()->first();
                 $price = $detail->price * $value;
-            }
-            else {
+            } else {
                 $detail = $option->details()->find($value);
                 $price = $detail->price;
             }
@@ -84,7 +83,6 @@ class OrderController extends Controller
                     'parent_option_id' => $option_id,
                 ]);
             }
-
         }
         alert()->success('Votre commande a été modifée avec succés.', 'Merci !')
             ->html()->autoclose(5000);
@@ -109,5 +107,4 @@ class OrderController extends Controller
             ->make(true);
         return $out;
     }
-
 }

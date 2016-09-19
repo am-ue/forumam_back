@@ -52,14 +52,14 @@ class Order extends Model
 
     public function getLabeledValueAttribute()
     {
-        switch ($this->option->type){
-            case 'select' :
+        switch ($this->option->type) {
+            case 'select':
                 $labeled_value = OptionDetail::find($this->value)->label;
                 break;
-            case 'checkbox' :
+            case 'checkbox':
                 $labeled_value = $this->value ? 'Oui' : 'Non';
                 break;
-            default :
+            default:
                 $labeled_value = $this->value;
                 break;
         }
@@ -81,7 +81,8 @@ class Order extends Model
         return $this->attributes['price'] / 100;
     }
 
-    public static function totalPrice($company_id = null) {
+    public static function totalPrice($company_id = null)
+    {
 
         $query = $company_id ? self::whereCompanyId($company_id) : (new self());
         return $query->sum('price') /100;
