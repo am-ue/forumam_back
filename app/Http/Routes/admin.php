@@ -1,11 +1,24 @@
 <?php
 
 Route::group(['middleware' => 'auth'], function () {
+
     Route::get('/', function () {
-        return view('admin.dashboard');
-    })->name('home');
+        if (auth()->user()->isAdmin()) {
+           return view('dashboard');
+        } else {
+           session()->reflash();
+           return redirect()->action('Admin\OrderController@index', auth()->user()->company_id);
+        }
+   })->name('home');
+
+    Route::get('log_as/{user?}', 'UserController@logAs');
 
     Route::group(['middleware' => 'canAccess'], function () {
+
+        Route::get('/download/companies', 'DownloadController@companies');
+        Route::get('/download/products', 'DownloadController@products');
+        Route::get('/download/badges', 'DownloadController@badges');
+        Route::get('/download/results', 'DownloadController@results');
 
         Route::get('users/datatable', 'UserController@datatable');
         Route::resource('users', 'UserController');
@@ -31,6 +44,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('companies/{company}/orders', 'OrderController@store');
         Route::get('companies/{company}/orders/datatable', 'OrderController@datatable');
 
+        Route::get('badges', 'BadgeController@index')->name('badges.index');
+        Route::get('companies/{company}/badges/edit', 'BadgeController@edit')->name('badges.edit');
+        Route::post('companies/{company}/badges', 'BadgeController@store');
+        Route::get('companies/{company}/badges/datatable', 'BadgeController@datatable');
     });
 });
 

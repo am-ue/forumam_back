@@ -29,7 +29,7 @@
                                 @endif
                             </div>
                             <div class="col-md-7 fvalue">
-                                @php($value = ($order = $option->order()->whereCompanyId($company_id)->first()) ? $order->value : null)
+                                @php($value = ($order = $option->orders()->whereCompanyId($company_id)->first()) ? $order->value : null)
                                 @if($option->type == 'checkbox')
                                     {{ Form::checkbox($option->id, 1, $value, ['rel' => 'switch']) }}
                                 @elseif($option->type == 'int')

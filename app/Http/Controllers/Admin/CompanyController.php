@@ -165,7 +165,7 @@ class CompanyController extends Controller
             })
             ->editColumn('contact.full_name', function (Company $company) {
                 $contact = $company->contact;
-                return (string)link_to_action('Admin\UserController@show', $contact->full_name, $contact->id);
+                return !$contact ? 'Aucun contact' : (string)link_to_action('Admin\UserController@show', $contact->full_name, $contact->id);
             })
             ->editColumn('state', function (Company $company) use ($viewsMaker) {
                 $active = $viewsMaker->badgeHelper($company->active, 'Act.', 'Inact.');

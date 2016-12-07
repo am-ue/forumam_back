@@ -27,7 +27,7 @@ class PostViewsMaker extends ViewsMaker
         $this->fields = [
             $this->textField('title'),
             $this->textareaField('description'),
-            $this->selectField('type', ['video', 'article']),
+            $this->selectField('type', Post::$types),
             $this->selectField('company_id', [null => "Aucune"] + Company::pluck('name', 'id')->toArray()),
             $this->textField('youtube_id'),
             $this->imageField('img'),
