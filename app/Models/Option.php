@@ -7,25 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\Option
  *
- * @mixin \Eloquent
  * @property integer $id
+ * @property integer $order
  * @property string $name
  * @property string $type
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionDetail[] $details
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $childrenRelations
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $parentsRelations
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Option whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Option whereOrder($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Option whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Option whereType($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Option whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Option whereUpdatedAt($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionDetail[] $details
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $children
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $parents
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $childrenRelations
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $parentsRelations
- * @property integer $order
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Option whereOrder($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @mixin \Eloquent
  */
 class Option extends Model
 {

@@ -12,7 +12,8 @@
         "yajra/laravel-datatables-oracle": "^6.15",
         "thomasruiz/larapie": "dev-master",
         "barryvdh/laravel-cors": "^0.8.2",
-        "maatwebsite/excel": "^2.1"
+        "maatwebsite/excel": "^2.1",
+        "graham-campbell/markdown": "^7.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

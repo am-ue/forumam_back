@@ -29,6 +29,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('categories/datatable', 'CategoryController@datatable');
         Route::resource('categories', 'CategoryController');
 
+        Route::get('config-variables/datatable', 'ConfigVariableController@datatable');
+        Route::resource('config-variables', 'ConfigVariableController');
+
         Route::get('options/datatable', 'OptionController@datatable');
         Route::post('options/reordering', 'OptionController@reorder');
         Route::resource('options', 'OptionController');

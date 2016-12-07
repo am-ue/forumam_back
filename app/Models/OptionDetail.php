@@ -13,6 +13,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $price
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property-read \App\Models\Option $option
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $parentsRelations
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $childrenRelations
+ * @property-read mixed $label_with_option
+ * @property-read mixed $label_with_price
+ * @property-read mixed $label_with_all
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionDetail whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionDetail whereOptionId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionDetail whereLabel($value)
@@ -20,12 +26,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionDetail whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionDetail whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read \App\Models\Option $option
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $childrenRelations
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OptionRelation[] $parentsRelations
- * @property-read string $label_with_option
- * @property-read string $label_with_price
- * @property-read string $label_with_all
  */
 class OptionDetail extends Model
 {

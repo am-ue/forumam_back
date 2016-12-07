@@ -190,6 +190,9 @@ return [
             'email'      => 'Email',
             'password'   => 'Mot de passe',
         ],
+
+        'key'   => 'Identifiant',
+        'value' => 'Texte',
     ],
 
 ];

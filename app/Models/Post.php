@@ -19,6 +19,8 @@ use Larapie\Contracts\DirectTransformableContract;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \App\Models\Company $company
+ * @property-read mixed $youtube_url
+ * @property-read mixed $youtube_thumb
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereCompanyId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereType($value)
@@ -29,8 +31,6 @@ use Larapie\Contracts\DirectTransformableContract;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read mixed $youtube_url
- * @property-read mixed $youtube_thumb
  */
 class Post extends Model implements DirectTransformableContract
 {

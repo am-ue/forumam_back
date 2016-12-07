@@ -13,6 +13,7 @@ use Larapie\Contracts\DirectTransformableContract;
  * @property string $name
  * @property string $website
  * @property string $description
+ * @property string $summary
  * @property string $figures
  * @property string $staffing
  * @property string $profiles
@@ -28,11 +29,17 @@ use Larapie\Contracts\DirectTransformableContract;
  * @property boolean $public
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property-read \App\Models\Category $category
+ * @property-read mixed $contact
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Badge[] $badges
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereWebsite($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereSummary($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereFigures($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereStaffing($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereProfiles($value)
@@ -48,15 +55,8 @@ use Larapie\Contracts\DirectTransformableContract;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company wherePublic($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereUpdatedAt($value)
- * @mixin \Eloquent
- * @property-read \App\Models\Category $category
- * @property-read \App\Models\User $contact
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Company showable()
- * @property string $summary
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Company whereSummary($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Badge[] $badges
+ * @mixin \Eloquent
  */
 class Company extends Model implements DirectTransformableContract
 {

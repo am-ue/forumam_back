@@ -14,6 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $child_value
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property-read mixed $name
+ * @property-read \App\Models\OptionDetail $parent
+ * @property-read \App\Models\OptionDetail $child
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionRelation whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionRelation whereParentId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionRelation whereParentValue($value)
@@ -22,11 +25,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionRelation whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionRelation whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read mixed $name
- * @property string $value
- * @method static \Illuminate\Database\Query\Builder|\App\Models\OptionRelation whereValue($value)
- * @property-read \App\Models\OptionDetail $parent
- * @property-read \App\Models\OptionDetail $child
  */
 class OptionRelation extends Model
 {
