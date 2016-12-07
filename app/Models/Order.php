@@ -70,4 +70,20 @@ class Order extends Model
     {
         return $this->option_id != $this->parent_option_id;
     }
+
+    public function setPriceAttribute($value)
+    {
+        return $this->attributes['price'] = round($value * 100);
+    }
+
+    public function getPriceAttribute()
+    {
+        return $this->attributes['price'] / 100;
+    }
+
+    public static function totalPrice($company_id = null) {
+
+        $query = $company_id ? self::whereCompanyId($company_id) : (new self());
+        return $query->sum('price') /100;
+    }
 }

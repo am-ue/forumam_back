@@ -19,6 +19,9 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 @if (Auth::check())
+                    @if(session()->has('orig_user'))
+                        <li>{{ link_to_action('Admin\UserController@logAs', 'Repasser en tant qu\'admin ') }}</li>
+                    @endif
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->

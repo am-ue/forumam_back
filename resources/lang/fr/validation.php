@@ -179,16 +179,16 @@ return [
         'child_value'  => 'Quantité',
 
         'company' => [
-            'name'    => 'nom de l\'entreprise',
-            'website' => 'site internet',
-            'summary' => 'résumé des activités',
+            'name'    => 'Nom de l\'entreprise',
+            'website' => 'Site internet',
+            'summary' => 'Résumé des activités',
         ],
         'user'    => [
-            'first_name' => 'prénom du responsable',
-            'last_name'  => 'nom du responsable',
-            'phone'      => 'téléphone',
-            'email'      => 'email',
-            'password'   => 'mot de passe',
+            'first_name' => 'Prénom du responsable',
+            'last_name'  => 'Nom du responsable',
+            'phone'      => 'Téléphone',
+            'email'      => 'Email',
+            'password'   => 'Mot de passe',
         ],
     ],
 

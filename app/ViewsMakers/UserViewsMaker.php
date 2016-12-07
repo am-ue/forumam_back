@@ -42,12 +42,21 @@ class UserViewsMaker extends ViewsMaker
     {
         $this->model = $user;
 
-        $this->headerActions = [
+        $headerActions = [
             $this->headerActionLinkButton(
                 action('Admin\UserController@edit', $user->id),
                 "Editer"
             ),
         ];
+
+        if (auth()->user()->isAdmin()) {
+            $headerActions[] = $this->headerActionLinkButton(
+                action('Admin\UserController@logAs', $user),
+                "Se connecter en tant que"
+            );
+        }
+
+        $this->headerActions = $headerActions;
 
 
         $this->fields = [

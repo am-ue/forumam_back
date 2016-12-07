@@ -39,10 +39,10 @@ return [
     |
     */
 
-    'url' => config('app.protocol').'://'.config('app.domain'),
+    'url' => env('APP_PROTOCOL', 'https').'://'.env('APP_DOMAIN', 'forum-am.fr'),
 
-    'domain' => env('APP_DOMAIN', 'localhost'),
-    'protocol' => env('APP_PROTOCOL', 'http'),
+    'domain' => env('APP_DOMAIN', 'forum-am.fr'),
+    'protocol' => env('APP_PROTOCOL', 'https'),
     'api_subdomain' => env('API_SUBDOMAIN','api'),
 
     /*
@@ -165,6 +165,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Larapie\LarapieServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -212,6 +213,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

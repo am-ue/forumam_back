@@ -12,7 +12,7 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>{{\App\Models\Order::whereCompanyId($company_id)->sum('price') ?: '0'}}</h3>
+                    <h3>{{\App\Models\Order::totalPrice($company_id) ?: '0'}}</h3>
                     <p>Montant total</p>
                 </div>
                 <div class="icon">
@@ -48,6 +48,24 @@
                 <a href={{ action('Admin\BadgeController@edit', $company_id) }} class="small-box-footer">Editer les badges <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>{{ \App\Models\Company::find($company_id)->completePercentage() }}</h3>
+                    <p>Remplissage profile</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-percent"></i>
+                </div>
+                @if(\App\Models\Company::find($company_id)->public)
+                    <a href="{{ action('Admin\CompanyController@edit', $company_id) }}" class="small-box-footer" style="width: 49.6%;display: inline-block;">Remplir mes infos <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ config('app.url') }}/#/exposants/{{ $company_id }}" class="small-box-footer" style ="width: 49.6%;display: inline-block;">Voir ma fiche <i class="fa fa-arrow-circle-right"></i></a>
+                @else
+                    <a href="{{ action('Admin\CompanyController@edit', $company_id) }}" class="small-box-footer">Remplir mes infos <i class="fa fa-arrow-circle-right"></i></a>
+                @endif
+            </div>
+        </div><!-- ./col -->
     </div>
     <div class="box">
         <!--<div class="box-header"></div>-->
@@ -78,13 +96,7 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/r-2.1.0/rr-1.1.2/datatables.min.js"></script>
 <script>
     $(function () {
-        var datatable = $("#index").DataTable({
-            @if(isset($config['reorder_url']))
-                rowReorder: {
-                    update: false,
-                    dataSrc: 'order'
-                },
-            @endif
+        $("#index").DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ $config['ajax_url'] }}",
@@ -133,25 +145,6 @@
             }
 
         });
-        @if(isset($config['reorder_url']))
-            datatable.on('row-reorder', function ( e, diff ) {
-                $.ajax({
-                    url: "{{ $config['reorder_url'] }}",
-                    type: 'POST',
-                    data: JSON.stringify(diff),
-                    headers: {
-                        'X-CSRF-TOKEN': '{{csrf_token()}}',
-                        'content-type': 'application/json'
-                    },
-                    success: function (data) {
-                        datatable.ajax.reload(null, false);
-                    },
-                    error: function (data) {
-                        alert('Problème ! merci de contacter l\'admin !');
-                    }
-                });
-            });
-        @endif
     });
 
 </script>

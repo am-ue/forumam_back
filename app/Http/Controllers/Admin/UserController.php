@@ -10,6 +10,7 @@ use Form;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Session;
 use Yajra\Datatables\Datatables;
 
 class UserController extends Controller
@@ -139,5 +140,19 @@ class UserController extends Controller
             })
             ->make(true);
         return $out;
+    }
+
+    public function logAs(User $user = null)
+    {
+        if($user->id) {
+            Session::put('orig_user', auth()->id());
+            auth()->login($user);
+        } else {
+            $id = Session::pull('orig_user');
+            $orig_user = User::find( $id );
+            auth()->login($orig_user);
+        }
+
+        return redirect()->back();
     }
 }
