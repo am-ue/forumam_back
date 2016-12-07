@@ -4,12 +4,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', function () {
         if (auth()->user()->isAdmin()) {
-           return view('dashboard');
+            return view('dashboard');
         } else {
-           session()->reflash();
-           return redirect()->action('Admin\OrderController@index', auth()->user()->company_id);
+            session()->reflash();
+            return redirect()->action('Admin\OrderController@index', auth()->user()->company_id);
         }
-   })->name('home');
+    })->name('home');
 
     Route::get('log_as/{user?}', 'UserController@logAs');
 
