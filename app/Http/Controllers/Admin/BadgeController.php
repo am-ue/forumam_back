@@ -55,7 +55,7 @@ class BadgeController extends Controller
         Badge::whereCompanyId($company->id)->delete();
 
         foreach ($request->except('_token') as $badge) {
-            if (empty($badge['first_name']) || empty($badge['last_name']) ){
+            if (empty($badge['first_name']) || empty($badge['last_name'])) {
                 continue;
             };
 
@@ -65,5 +65,4 @@ class BadgeController extends Controller
             ->html()->autoclose(5000);
         return redirect()->action('Admin\OrderController@index', $company->id);
     }
-
 }

@@ -48,7 +48,7 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         $post = new Post($request->all());
-        $post->company_id = empty($request->input('company_id')) ? null : $request->input('company_id'); 
+        $post->company_id = empty($request->input('company_id')) ? null : $request->input('company_id');
         switch ($request->input('type')) {
             case 'article':
                 $post->addImg($request);
@@ -102,7 +102,7 @@ class PostController extends Controller
     public function update(PostRequest $request, Post $post)
     {
         $post->fill($request->all());
-        $post->company_id = empty($request->input('company_id')) ? null : $request->input('company_id'); 
+        $post->company_id = empty($request->input('company_id')) ? null : $request->input('company_id');
 
         switch ($request->input('type')) {
             case 'article':

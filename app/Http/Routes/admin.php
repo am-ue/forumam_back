@@ -4,17 +4,16 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', function () {
         if (auth()->user()->isAdmin()) {
-           return view('dashboard');
+            return view('dashboard');
         } else {
-           session()->reflash();
-           return redirect()->action('Admin\OrderController@index', auth()->user()->company_id);
+            session()->reflash();
+            return redirect()->action('Admin\OrderController@index', auth()->user()->company_id);
         }
-   })->name('home');
+    })->name('home');
 
     Route::get('log_as/{user?}', 'UserController@logAs');
-    
+
     Route::group(['middleware' => 'canAccess'], function () {
-        
         Route::get('/download/companies', 'DownloadController@companies');
         Route::get('/download/products', 'DownloadController@products');
         Route::get('/download/badges', 'DownloadController@badges');
@@ -48,12 +47,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('companies/{company}/badges/edit', 'BadgeController@edit')->name('badges.edit');
         Route::post('companies/{company}/badges', 'BadgeController@store');
         Route::get('companies/{company}/badges/datatable', 'BadgeController@datatable');
-
     });
 });
 
 Route::group(['namespace' => 'Auth'], function () {
-
     // Authentication Routes...
     Route::get('login', 'AuthController@showLoginForm')->name('login');
     Route::post('login', 'AuthController@postLogin')->name('postLogin');

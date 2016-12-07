@@ -157,12 +157,11 @@ class Company extends Model implements DirectTransformableContract
             'billing_method',
         ];
         $percentage = 0;
-        foreach ( $attributes as $attribute) {
+        foreach ($attributes as $attribute) {
             if (!empty($this->$attribute)) {
                 $percentage += (100 / count($attributes));
             }
         }
         return round($percentage);
     }
-
 }
