@@ -14,7 +14,8 @@ class EmailController extends Controller
         extract($request->only(['name', 'message', 'email']), EXTR_SKIP);
         try {
             Mail::raw($message, function (Message $m) use ($name, $email) {
-                $m->from($email, $name);
+                $m->from($email, $name . ' ('.$email.')');
+                $m->replyTo($email, $name);
                 $m->to(env('EMAIL_CONTACT', 'contact@forum-am.fr'))->subject('Nouveau message depuis le site !');
             });
         } catch (\Exception $e) {
